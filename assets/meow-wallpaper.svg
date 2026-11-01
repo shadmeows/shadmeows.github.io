@@ -91,7 +91,7 @@
   <path d="M80 37q19-25 39-10"/>
  </g>
 </defs>
-<g color="#596747" opacity=".62">
+<g color="#78945d" opacity=".31">
  <use xlink:href="#elephant" transform="translate(25 45) scale(1.05)"/>
  <use xlink:href="#lion" transform="translate(690 42) scale(.95)"/>
  <use xlink:href="#owl" transform="translate(365 235) scale(.82)"/>
@@ -136,7 +136,7 @@
  <use xlink:href="#fish" transform="translate(250 900) scale(.58)"/>
  <use xlink:href="#turtle" transform="translate(80 1300) scale(.55)"/>
 </g>
-<g fill="#596747" opacity=".45">
+<g fill="#78945d" opacity=".225">
  <circle cx="270" cy="65" r="3"/><circle cx="540" cy="105" r="4"/><circle cx="930" cy="170" r="3"/>
  <circle cx="105" cy="250" r="4"/><circle cx="600" cy="310" r="3"/><circle cx="325" cy="385" r="3"/>
  <circle cx="905" cy="420" r="4"/><circle cx="565" cy="540" r="3"/><circle cx="250" cy="675" r="4"/>
