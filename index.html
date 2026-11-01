@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0e1621">
+  <meta name="theme-color" content="#080a06">
   <meta name="description" content="MEOW؛ گپی برای وقت گذروندن در کنار هم. کانال‌های کلیپ، ادبیات و موسیقی در شاد.">
   <meta property="og:title" content="MEOW">
   <meta property="og:description" content="گپی برای وقت گذروندن در کنار هم">
@@ -13,21 +13,26 @@
   <style>
 :root {
   color-scheme: dark;
-  --bg: #0e1621;
-  --surface: #17212b;
-  --surface-2: #1d2a38;
-  --line: #283849;
+  --bg: #050705;
+  --surface: rgba(12,16,10,.92);
+  --surface-2: #171d12;
+  --line: rgba(139,158,108,.24);
   --ink: #f3f6fa;
-  --muted: #91a2b3;
-  --accent: #4c9ce8;
-  --accent-hover: #69afeF;
+  --muted: #a3ad95;
+  --accent: #78945d;
+  --accent-hover: #91ad70;
   --shadow: 0 16px 42px rgba(0,0,0,.23);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0; min-height: 100vh; color: var(--ink);
-  background: radial-gradient(ellipse at 12% 0%, rgba(47,103,151,.15), transparent 34rem), var(--bg);
+  background-color: var(--bg);
+  background-image: linear-gradient(rgba(3,5,3,.12),rgba(3,5,3,.28)), url("data:image/webp;base64,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");
+  background-size: cover, 520px 520px;
+  background-position: center, 0 0;
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed, fixed;
   font-family: Tahoma, "Segoe UI", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -38,8 +43,9 @@ button { font: inherit; }
   position: relative; isolation: isolate; overflow: hidden;
   min-height: 350px; display: grid; grid-template-columns: 1.06fr .94fr;
   align-items: center; gap: 22px; margin-top: 24px; padding: 38px 48px;
-  border: 1px solid #2a3b4c; border-radius: 25px; color: #fff;
-  background: linear-gradient(125deg,#17212b 0%,#1a2a39 58%,#20394c 100%);
+  border: 1px solid rgba(144,166,111,.30); border-radius: 25px; color: #fff;
+  background: linear-gradient(125deg,rgba(7,10,6,.94) 0%,rgba(14,19,10,.88) 58%,rgba(24,31,16,.86) 100%);
+  backdrop-filter: blur(16px);
   box-shadow: var(--shadow);
 }
 .hero::before, .hero::after {
@@ -66,12 +72,20 @@ h1 {
   box-shadow: 0 7px 18px rgba(0,0,0,.15);
 }
 .primary-btn:hover, .channel-btn:hover { transform: translateY(-2px); background: var(--accent-hover); box-shadow: 0 10px 24px rgba(0,0,0,.22); }
+@keyframes groupBlink {
+  0%, 88%, 100% { filter: brightness(1); box-shadow: 0 7px 18px rgba(0,0,0,.20); }
+  90% { filter: brightness(1.3); box-shadow: 0 0 0 4px rgba(160,190,113,.16), 0 0 26px rgba(152,185,102,.72); }
+  92% { filter: brightness(1); box-shadow: 0 7px 18px rgba(0,0,0,.20); }
+  94% { filter: brightness(1.27); box-shadow: 0 0 0 4px rgba(160,190,113,.13), 0 0 22px rgba(152,185,102,.62); }
+  96% { filter: brightness(1); box-shadow: 0 7px 18px rgba(0,0,0,.20); }
+}
+.group-cta { animation: groupBlink 5s infinite; }
 .hero-art { position: relative; display: grid; place-items: center; min-height: 260px; }
-.hero-glow { position: absolute; width: 270px; height: 270px; border-radius: 50%; background: rgba(76,156,232,.14); filter: blur(26px); }
+.hero-glow { position: absolute; width: 270px; height: 270px; border-radius: 50%; background: rgba(126,153,92,.20); filter: blur(26px); }
 .hero-photo {
   position: relative; width: min(76%,285px); aspect-ratio: 1;
-  overflow: hidden; border: 6px solid #2a3c4e; border-radius: 25px;
-  background: #1c2a38; box-shadow: 0 22px 45px rgba(0,0,0,.32);
+  overflow: hidden; border: 6px solid rgba(137,158,107,.27); border-radius: 25px;
+  background: #11160d; box-shadow: 0 22px 45px rgba(0,0,0,.32);
   transform: rotate(1.5deg);
 }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -82,18 +96,18 @@ h1 {
 .cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
 .channel-card {
   min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px;
-  background: var(--surface); box-shadow: 0 7px 24px rgba(0,0,0,.13);
+  background: var(--surface); backdrop-filter: blur(15px); box-shadow: 0 7px 24px rgba(0,0,0,.26);
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
 }
-.channel-card:hover { transform: translateY(-4px); border-color: #3a668c; box-shadow: 0 18px 34px rgba(0,0,0,.23); }
-.cover { position: relative; aspect-ratio: 1.42 / 1; overflow: hidden; background: #1b2a38; }
+.channel-card:hover { transform: translateY(-4px); border-color: rgba(153,178,112,.62); box-shadow: 0 18px 34px rgba(0,0,0,.23); }
+.cover { position: relative; aspect-ratio: 1.42 / 1; overflow: hidden; background: #11160d; }
 .cover::after { content: ""; position: absolute; inset: 48% 0 0; background: linear-gradient(transparent,rgba(5,12,20,.35)); pointer-events: none; }
 .cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
 .channel-card:hover .cover img { transform: scale(1.035); }
 .cover-tag {
   position: absolute; z-index: 1; top: 12px; right: 12px; padding: 7px 10px;
   border: 1px solid rgba(255,255,255,.15); border-radius: 9px;
-  color: #f4f7fb; background: rgba(14,22,33,.76); backdrop-filter: blur(12px);
+  color: #f4f7fb; background: rgba(5,8,4,.82); backdrop-filter: blur(12px);
   font-size: 9px; font-weight: 800;
 }
 .card-body { padding: 18px 17px 16px; }
@@ -101,28 +115,28 @@ h1 {
 .description { min-height: 47px; margin: 9px 0 15px; color: #a4b3c1; font-size: 11px; line-height: 2.05; }
 .member-box {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 11px 12px; border: 1px solid #293b4d; border-radius: 11px; background: #111c28;
+  padding: 11px 12px; border: 1px solid rgba(135,158,101,.22); border-radius: 11px; background: rgba(4,7,3,.76);
 }
 .member-label { display: flex; align-items: center; gap: 8px; color: #9aabba; font-size: 10px; }
-.member-label span { width: 7px; height: 7px; border-radius: 50%; background: #5c9bd4; box-shadow: 0 0 0 4px rgba(76,156,232,.13); }
+.member-label span { width: 7px; height: 7px; border-radius: 50%; background: #a0b878; box-shadow: 0 0 0 4px rgba(143,169,100,.16); }
 .member-count { color: #f3f6fa; font-size: 16px; font-weight: 900; direction: ltr; font-variant-numeric: tabular-nums; }
 .card-actions { display: flex; align-items: center; gap: 10px; margin-top: 13px; }
-.channel-btn { min-height: 42px; width: 100%; padding: 0 13px; color: #fff; background: #315f88; font-size: 11px; }
+.channel-btn { min-height: 42px; width: 100%; padding: 0 13px; color: #fff; background: #536a3f; font-size: 11px; }
 .external-hint { display: none; }
 .bottom-cta {
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
-  margin: 6px 0 35px; padding: 23px 26px; border: 1px solid #2a3a4b;
-  border-radius: 18px; background: linear-gradient(115deg,#172431,#1c2b39);
+  margin: 6px 0 35px; padding: 23px 26px; border: 1px solid rgba(145,166,110,.27);
+  border-radius: 18px; background: linear-gradient(115deg,rgba(7,10,6,.94),rgba(19,26,12,.90)); backdrop-filter: blur(16px);
 }
 .bottom-cta h2 { margin: 0; color: var(--ink); font-size: 17px; }
 .bottom-cta p { margin: 7px 0 0; color: var(--muted); font-size: 11px; }
 .bottom-cta .primary-btn { min-height: 43px; padding-inline: 18px; white-space: nowrap; }
 .bottom-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.join-help { display: inline-block; color: #91a2b3; font-size: 10px; line-height: 1.8; text-decoration: underline; text-decoration-color: #526b82; text-underline-offset: 3px; }
-.join-help:hover { color: #c9e2f8; }
-footer { display: flex; justify-content: space-between; gap: 16px; padding: 17px 0 25px; border-top: 1px solid #263748; color: #8495a6; font-size: 9px; }
-footer strong { color: #9bbde0; letter-spacing: 1.3px; direction: ltr; }
-a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
+.join-help { display: inline-block; color: #b2bd9e; font-size: 10px; line-height: 1.8; text-decoration: underline; text-decoration-color: #71845a; text-underline-offset: 3px; }
+.join-help:hover { color: #e0edc7; }
+footer { display: flex; justify-content: space-between; gap: 16px; padding: 17px 0 25px; border-top: 1px solid rgba(139,158,108,.22); color: #a0a991; font-size: 9px; }
+footer strong { color: #bdce9a; letter-spacing: 1.3px; direction: ltr; }
+a:focus-visible { outline: 3px solid #a8c783; outline-offset: 3px; }
 @media (max-width: 850px) {
   .hero { padding: 34px; }
   .cards { gap: 12px; }
@@ -165,7 +179,7 @@ a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
           <h1 id="hero-title">MEOW</h1>
           <p class="tagline">گپی برای وقت گذروندن در کنار هم</p>
           <div class="hero-actions">
-            <a class="primary-btn" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه <span aria-hidden="true">↗</span></a>
+            <a class="primary-btn group-cta" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه <span aria-hidden="true">↗</span></a>
             <a class="join-help" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">اگه نتونستی میتونی از اینجا عضو شی</a>
 
           </div>
@@ -228,7 +242,7 @@ a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
       <section class="bottom-cta" id="about" aria-label="درباره MEOW">
         <div><h2>یه گپ کوچیک، کلی حس خوب :)</h2><p>برای وقت گذروندن، آشنا شدن و ساختن خاطره‌های خوب کنار هم.</p></div>
         <div class="bottom-cta-actions">
-          <a class="primary-btn" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه</a>
+          <a class="primary-btn group-cta" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه</a>
           <a class="join-help" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">اگه نتونستی میتونی از اینجا عضو شی</a>
         </div>
       </section>
