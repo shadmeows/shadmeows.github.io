@@ -77,12 +77,19 @@ h1 {
   50% { filter: brightness(1.12); box-shadow: 0 0 0 9px rgba(120,148,93,0), 0 0 28px rgba(120,148,93,.46); }
 }
 .group-cta {
-  color: #fff;
-  background: linear-gradient(135deg,#78945d,#607b49);
-  box-shadow: 0 7px 18px rgba(94,122,69,.28);
+  color: #fff !important;
+  background-color: #78945d !important;
+  background-image: none !important;
+  box-shadow: 0 7px 18px rgba(94,122,69,.30);
   animation: telegramPulse 2.4s ease-in-out infinite;
 }
-.group-cta:hover { background: linear-gradient(135deg,#88a66b,#6b8752); animation-play-state: paused; }
+.group-cta:hover,
+.group-cta:focus-visible {
+  color: #fff !important;
+  background-color: #91ad70 !important;
+  background-image: none !important;
+  animation-play-state: paused;
+}
 .hero-art { position: relative; display: grid; place-items: center; min-height: 260px; }
 .hero-glow { position: absolute; width: 270px; height: 270px; border-radius: 50%; background: rgba(126,153,92,.20); filter: blur(26px); }
 .hero-photo {
