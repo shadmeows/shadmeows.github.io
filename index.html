@@ -29,8 +29,8 @@ body {
   margin: 0; min-height: 100vh; color: var(--ink);
   background-color: var(--bg);
   background-image: linear-gradient(rgba(3,5,3,.10),rgba(3,5,3,.16)), url("assets/meow-wallpaper.svg");
-  background-size: 100% auto;
-  background-position: center top;
+  background-size: 100% 100%, 100% auto;
+  background-position: center, center top;
   background-repeat: no-repeat, repeat-y;
   background-attachment: scroll;
   font-family: Tahoma, "Segoe UI", Arial, sans-serif;
@@ -137,7 +137,7 @@ h1 {
 .bottom-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .join-help { display: inline-block; color: #b2bd9e; font-size: 10px; line-height: 1.8; text-decoration: underline; text-decoration-color: #71845a; text-underline-offset: 3px; }
 .join-help:hover { color: #e0edc7; }
-footer { display: flex; justify-content: space-between; gap: 16px; padding: 17px 0 25px; border-top: 1px solid rgba(139,158,108,.22); color: #a0a991; font-size: 9px; }
+footer { display: flex; justify-content: center; text-align: center; gap: 16px; padding: 17px 0 25px; border-top: 1px solid rgba(139,158,108,.22); color: #a0a991; font-size: 9px; }
 footer strong { color: #bdce9a; letter-spacing: 1.3px; direction: ltr; }
 a:focus-visible { outline: 3px solid #a8c783; outline-offset: 3px; }
 @media (max-width: 850px) {
