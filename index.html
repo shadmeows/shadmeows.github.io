@@ -117,6 +117,9 @@ h1 {
 .bottom-cta h2 { margin: 0; color: var(--ink); font-size: 17px; }
 .bottom-cta p { margin: 7px 0 0; color: var(--muted); font-size: 11px; }
 .bottom-cta .primary-btn { min-height: 43px; padding-inline: 18px; white-space: nowrap; }
+.bottom-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.join-help { display: inline-block; color: #91a2b3; font-size: 10px; line-height: 1.8; text-decoration: underline; text-decoration-color: #526b82; text-underline-offset: 3px; }
+.join-help:hover { color: #c9e2f8; }
 footer { display: flex; justify-content: space-between; gap: 16px; padding: 17px 0 25px; border-top: 1px solid #263748; color: #8495a6; font-size: 9px; }
 footer strong { color: #9bbde0; letter-spacing: 1.3px; direction: ltr; }
 a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
@@ -146,6 +149,7 @@ a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
   .description { min-height: 0; margin-bottom: 13px; }
   .bottom-cta { align-items: stretch; flex-direction: column; margin-bottom: 25px; padding: 19px; }
   .bottom-cta .primary-btn { width: 100%; }
+  .bottom-cta-actions { width: 100%; }
   footer { flex-direction: column; align-items: center; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -161,7 +165,8 @@ a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
           <h1 id="hero-title">MEOW</h1>
           <p class="tagline">گپی برای وقت گذروندن در کنار هم</p>
           <div class="hero-actions">
-            <a class="primary-btn" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">ورود به گروه <span aria-hidden="true">↗</span></a>
+            <a class="primary-btn" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه <span aria-hidden="true">↗</span></a>
+            <a class="join-help" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">اگه نتونستی میتونی از اینجا عضو شی</a>
 
           </div>
         </div>
@@ -222,7 +227,10 @@ a:focus-visible { outline: 3px solid #77b7ef; outline-offset: 3px; }
 
       <section class="bottom-cta" id="about" aria-label="درباره MEOW">
         <div><h2>یه گپ کوچیک، کلی حس خوب :)</h2><p>برای وقت گذروندن، آشنا شدن و ساختن خاطره‌های خوب کنار هم.</p></div>
-        <a class="primary-btn" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">ورود به گروه</a>
+        <div class="bottom-cta-actions">
+          <a class="primary-btn" href="tg:join?invite=4SoEyzWPqM0xZjk0">ورود به گروه</a>
+          <a class="join-help" href="https://t.me/+4SoEyzWPqM0xZjk0" target="_blank" rel="noopener noreferrer">اگه نتونستی میتونی از اینجا عضو شی</a>
+        </div>
       </section>
     </main>
 
