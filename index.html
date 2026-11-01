@@ -323,8 +323,8 @@
         </div>
 
         <div class="count-footer">
-          <span id="countStatus" aria-live="polite">نمایش آخرین آمار ثبت‌شده در سایت</span>
-          <button class="count-refresh" id="refreshCounts" type="button"><span aria-hidden="true">↻</span> تازه‌سازی آمار</button>
+          <span id="countStatus" aria-live="polite">آمار ذخیره‌شده در سایت · اتصال زنده شاد هنوز فعال نیست</span>
+          <button class="count-refresh" id="refreshCounts" type="button"><span aria-hidden="true">↻</span> بارگذاری دوباره</button>
         </div>
       </section>
 
@@ -365,8 +365,8 @@
         }
         const stamp = data.updatedAt ? new Date(data.updatedAt) : null;
         const dateLabel = stamp && !Number.isNaN(stamp.getTime())
-          ? 'آخرین ثبت: ' + new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' }).format(stamp)
-          : 'آخرین آمار ثبت‌شده در سایت';
+          ? 'آخرین ثبت در سایت: ' + new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' }).format(stamp)
+          : 'آمار ذخیره‌شده · اتصال زنده شاد هنوز فعال نیست';
         countStatus.textContent = updated ? dateLabel : 'آمار ذخیره‌شده‌ای پیدا نشد';
         if (showMessage && updated) refreshButton.title = 'اعداد از فایل آمار سایت خوانده شدند';
       } catch (error) {
