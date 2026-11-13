@@ -4,8 +4,8 @@
   "lang": "fa",
   "dir": "rtl",
   "display": "standalone",
-  "background_color": "#080b17",
-  "theme_color": "#080b17",
+  "background_color": "#171e2d",
+  "theme_color": "#171e2d",
   "start_url": "./index.html",
   "icons": [
     {
