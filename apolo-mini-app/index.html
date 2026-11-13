@@ -183,6 +183,56 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
 .app-form input:focus,.app-form textarea:focus{border-color:rgba(55,191,248,.55);box-shadow:0 0 0 3px rgba(55,191,248,.08)}
 .app-form button{width:100%}.app-form textarea{resize:vertical}
 .tile .action{font-size:8px;padding:8px 10px;margin-top:6px}
+
+/* Smooth, thumb-friendly game UI */
+#view{animation:apoloPageIn .24s cubic-bezier(.2,.7,.2,1)}
+@keyframes apoloPageIn{from{opacity:.65;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.game-tools{display:grid;gap:10px;margin:13px 0 17px}
+.game-search{width:100%;height:43px;padding:0 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.06);color:var(--text);font:inherit;font-size:11px;outline:none}
+.game-search:focus{border-color:rgba(55,191,248,.5);box-shadow:0 0 0 3px rgba(55,191,248,.08)}
+.game-filters{display:flex;gap:7px;overflow-x:auto;padding:1px 1px 3px;scrollbar-width:none}
+.game-filters::-webkit-scrollbar{display:none}
+.game-filter{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);color:var(--muted);padding:8px 13px;font-size:9px;font-weight:850;white-space:nowrap;transition:background .18s ease,color .18s ease,border-color .18s ease}
+.game-filter.active{background:rgba(55,191,248,.13);color:#d8efff;border-color:rgba(55,191,248,.28)}
+.game-meta{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.game-tag{font-size:7px;padding:3px 6px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--muted);border:1px solid rgba(255,255,255,.07)}
+.game-tag.online{color:#80e9d6;background:rgba(94,234,212,.09);border-color:rgba(94,234,212,.16)}
+.game-tag.local{color:#dfd2ff;background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.16)}
+.game-tag.practice{color:#ffdc9a;background:rgba(248,205,120,.09);border-color:rgba(248,205,120,.16)}
+.local-setup{display:grid;gap:11px}
+.local-setup input,.local-setup select,.local-form input,.local-form textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.06);color:var(--text);padding:12px;font:inherit;font-size:11px;outline:none}
+.local-setup label,.local-form label{display:block;margin-bottom:6px;color:var(--muted);font-size:9px;font-weight:800}
+.local-curtain{padding:24px 16px;text-align:center;border:1px solid rgba(177,169,255,.2);border-radius:18px;background:linear-gradient(145deg,rgba(94,84,157,.18),rgba(34,43,64,.78));margin:10px 0}
+.local-curtain .curtain-icon{font-size:36px;margin-bottom:8px}
+.local-curtain b{display:block;font-size:14px}
+.local-curtain p{color:var(--muted);font-size:9px;line-height:2}
+.local-status{padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.055);border:1px solid var(--line);font-size:10px;line-height:1.9;margin:8px 0}
+.local-players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:8px 0}
+.local-player{padding:9px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.045);font-size:9px;display:flex;align-items:center;justify-content:space-between;gap:5px}
+.local-player.active{border-color:rgba(94,234,212,.32);background:rgba(94,234,212,.08)}
+.local-board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;padding:7px;border-radius:14px;background:#141c2d;border:1px solid var(--line);max-width:100%}
+.chess-square{aspect-ratio:1;border:0;border-radius:3px;display:grid;place-items:center;font-size:clamp(17px,5vw,31px);padding:0;position:relative;color:#182033}
+.chess-square.light{background:#dce2eb}.chess-square.dark{background:#71839b}
+.chess-square.selected{outline:3px solid #58dfcc;outline-offset:-3px;z-index:1}
+.chess-square.legal:after{content:"";width:22%;height:22%;border-radius:50%;background:rgba(26,43,62,.45);position:absolute}
+.chess-coords{display:flex;justify-content:space-between;color:var(--muted);font-size:7px;padding:4px 7px}
+.card-hand{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.uno-card,.playing-card{width:53px;min-height:78px;border:2px solid rgba(255,255,255,.65);border-radius:10px;background:#f5f5f4;color:#151923;display:flex;flex-direction:column;justify-content:space-between;padding:6px 4px;font-weight:1000;box-shadow:0 5px 12px rgba(0,0,0,.18);font-size:17px}
+.uno-card small{font-size:8px;align-self:flex-start}
+.uno-card.red{background:#ef5d68;color:#fff}.uno-card.blue{background:#4795e7;color:#fff}.uno-card.green{background:#50bb84;color:#fff}.uno-card.yellow{background:#f1d24d;color:#20202a}.uno-card.wild{background:conic-gradient(#e95a67 0 25%,#f0d44c 25% 50%,#52bd85 50% 75%,#448ee4 75%);color:#fff}
+.uno-card:disabled{opacity:.5;transform:none}
+.trick-table{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.trick-card{min-height:75px;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:13px;display:grid;place-items:center;text-align:center;font-size:9px}
+.trick-card strong{display:block;font-size:26px}
+.hokm-hand{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:13px 0}
+.hokm-card{min-width:43px;height:65px;padding:6px 3px;border-radius:9px;border:1px solid rgba(255,255,255,.4);background:#f7f7f3;color:#1b2331;font-size:16px;font-weight:1000;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.hokm-card.red-suit{color:#d84552}.hokm-card:disabled{opacity:.38}
+.hokm-suits{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.hokm-suits button{padding:13px 5px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.07);font-size:20px}
+.local-answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.local-answer-grid input{min-width:0}
+@media(max-width:360px){.game{padding:9px;gap:7px}.game-art{width:40px;height:40px;flex-basis:40px}.uno-card{width:47px}.hokm-card{min-width:38px}}
+@media(prefers-reduced-motion:reduce){#view{animation:none}}
 </style>
 </head>
 <body>
@@ -208,6 +258,7 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
 </nav>
 <div id="toast" class="toast"></div>
 </div>
+<script src="./assets/engines/apolo-games.js"></script>
 <script>
 (function(){
 'use strict';
