@@ -176,6 +176,13 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
 @media(hover:hover){.game:hover,.tile:hover{transform:translateY(-2px);border-color:rgba(177,169,255,.28)}}
 @media(prefers-reduced-motion:reduce){.game,.tile,.primary,.action,.bottom-nav button{transition:none!important}}
 
+
+.app-form{display:grid;gap:9px;margin-top:12px}
+.app-form label{font-size:9px;color:var(--muted);font-weight:800}
+.app-form input,.app-form textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.06);color:var(--text);padding:12px;font:inherit;font-size:11px;outline:none}
+.app-form input:focus,.app-form textarea:focus{border-color:rgba(55,191,248,.55);box-shadow:0 0 0 3px rgba(55,191,248,.08)}
+.app-form button{width:100%}.app-form textarea{resize:vertical}
+.tile .action{font-size:8px;padding:8px 10px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -206,7 +213,7 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
 'use strict';
 var tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 var view=document.getElementById('view'),nav=document.getElementById('nav'),toast=document.getElementById('toast');
-var user=null,page='home',gameId='',soloGame=null,match=null,queueWaiting=false,pollTimer=null,quizState=null,practiceState=null;
+var user=null,page='home',gameId='',soloGame=null,match=null,queueWaiting=false,pollTimer=null,quizState=null,practiceState=null,renderSeq=0;
 var cache={friends:null,groups:null,shop:null,leaderboard:null,profile:null,blind:null};
 var games=[
 {id:'ttt',title:'دوز',sub:'تک‌نفره و آنلاین',color:'#9f8cff'},
@@ -311,12 +318,13 @@ else if(match.game==='rps'){var choices=[['rock','✊ سنگ'],['paper','✋ ک�
 var status=s.status==='finished'?(String(s.winner)===me?'🏆 تو برنده شدی!':s.winner?'حریفت برنده شد.':'بازی مساوی شد.'):(myTurn?'نوبت توست':'نوبت '+esc(op));
 return '<section class="panel glass"><div class="row"><span>حریف</span><b>'+esc(op)+'</b></div><div class="row"><span>وضعیت مسابقه</span><b>'+status+'</b></div>'+body+(s.status==='finished'?action('بازگشت به بازی‌ها','games-home','primary'):'')+'</section>'}
 function renderPractice(){if(!practiceState)return '';if(practiceState.type==='quiz'){var q=practiceState.items[practiceState.index];if(!q)return '<section class="panel glass"><b>چالش تمام شد!</b><div class="stat-value cyan">'+fmt(practiceState.score)+' / '+fmt(practiceState.items.length)+'</div>'+action('شروع دوباره','practice-start','primary')+'</section>';return '<section class="panel glass"><div class="row"><span>سؤال '+fmt(practiceState.index+1)+' از '+fmt(practiceState.items.length)+'</span><b>'+fmt(practiceState.score)+' امتیاز</b></div><b>'+esc(q.q)+'</b>'+q.a.map(function(x,i){return action(esc(x),'practice-answer','', 'data-id="'+i+'"')}).join('')+'</section>'}
-if(practiceState.type==='math'){return '<section class="panel glass"><div class="row"><span>سؤال '+fmt(practiceState.index+1)+' از ۵</span><b>'+fmt(practiceState.score)+' امتیاز</b></div><b style="display:block;font-size:24px;text-align:center;margin:15px">'+practiceState.question+'</b><form id="mathForm" class="app-form"><input name="answer" inputmode="numeric" placeholder="پاسخ عددی" required><button class="primary">ثبت پاسخ</button></form></section>'}
+if(practiceState.type==='math'){return '<section class="panel glass"><div class="row"><span>سؤال '+fmt(practiceState.index+1)+' از ۵</span><b>'+fmt(practiceState.score)+' امتیاز</b></div><b style="display:block;font-size:24px;text-align:center;margin:15px">'+esc(practiceState.question.text)+'</b><form id="mathForm" class="app-form"><input name="answer" inputmode="numeric" placeholder="پاسخ عددی" required><button class="primary">ثبت پاسخ</button></form></section>'}
+if(practiceState.type==='mathdone'){return '<section class="panel glass"><b>چالش ریاضی تمام شد!</b><div class="stat-value cyan">'+fmt(practiceState.score)+' / ۵</div>'+action('شروع دوباره','practice-start','primary')+'</section>'}
 return ''}
 function render(){document.getElementById('coins').textContent=fmt(user.coins);document.getElementById('topAvatar').innerHTML=user.photoUrl?'<img src="'+esc(user.photoUrl)+'" alt="">':esc((user.firstName||'A').slice(0,1));document.getElementById('topAvatar').disabled=false;document.getElementById('coinButton').disabled=false;
 var pages={home:homePage,games:gamesPage,friends:friendsPage,groups:groupsPage,profile:profilePage,shop:shopPage,leaderboard:leaderboardPage,blind:blindPage,game:gamePage};
-var out=pages[page]?pages[page]():homePage();
-Promise.resolve(out).then(function(html){if(page===page)view.innerHTML=html;nav.querySelectorAll('button[data-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===page||page==='game'&&b.getAttribute('data-page')==='games')});nav.classList.remove('loading-nav')}).catch(function(err){view.innerHTML='<div class="error">بارگذاری این بخش انجام نشد: '+esc(err.message)+'<button data-action="reload-page">تلاش دوباره</button></div>';nav.classList.remove('loading-nav')})}
+var seq=++renderSeq;var out=pages[page]?pages[page]():homePage();
+Promise.resolve(out).then(function(html){if(seq===renderSeq)view.innerHTML=html;nav.querySelectorAll('button[data-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===page||page==='game'&&b.getAttribute('data-page')==='games')});nav.classList.remove('loading-nav')}).catch(function(err){view.innerHTML='<div class="error">بارگذاری این بخش انجام نشد: '+esc(err.message)+'<button data-action="reload-page">تلاش دوباره</button></div>';nav.classList.remove('loading-nav')})}
 async function navigate(p){stopPolling();page=p;queueWaiting=false;if(p!=='game'){match=null;soloGame=null;gameId='';practiceState=null}nav.classList.add('loading-nav');render()}
 async function openGame(id){stopPolling();gameId=id;page='game';match=null;soloGame=null;queueWaiting=false;practiceState=null;render();if(['ttt','rps','four'].includes(id))pollMatch()}
 async function pollMatch(){stopPolling();if(page!=='game'||!gameId)return;try{var d=await api('queue.status',{game:gameId});if(d.match){match=d.match;queueWaiting=false;render()}else if(d.waiting){queueWaiting=true;render();}else{if(queueWaiting){queueWaiting=false;render()}}}catch(e){}if(page==='game'&&(queueWaiting||match&&match.state&&match.state.status==='play'))pollTimer=setTimeout(pollMatch,2200)}
@@ -354,14 +362,15 @@ else if(a==='reload-page')render();
 });
 view.addEventListener('submit',async function(e){e.preventDefault();var f=e.target;
 if(f.id==='friendAddForm'){var code=String(new FormData(f).get('code')||'').trim();try{await api('friends.add',{code:code});cache.friends=null;notify('درخواست دوستی ارسال شد.');render()}catch(err){notify(err.message==='user_not_found'?'بازیکنی با این آیدی پیدا نشد.':err.message)}}
-else if(f.id==='profileForm'){var fd=new FormData(f);try{cache.profile=await api('profile.update',{displayName:String(fd.get('displayName')||''),bio:String(fd.get('bio')||'')});notify('پروفایل ذخیره شد.');render()}catch(err){notify(err.message)}}
-else if(f.id==='mathForm'){var ans=Number(new FormData(f).get('answer'));if(ans===practiceState.question.answer)practiceState.score++;practiceState.index++;if(practiceState.index>=5){practiceState.done=true;practiceState={type:'quiz',items:[],index:0,score:practiceState.score}}else practiceState.question=makeMath();render()}
+else if(f.id==='profileForm'){var fd=new FormData(f);try{cache.profile=await api('profile.update',{displayName:String(fd.get('displayName')||''),bio:String(fd.get('bio')||'')});user.displayName=cache.profile.displayName;notify('پروفایل ذخیره شد.');render()}catch(err){notify(err.message)}}
+else if(f.id==='mathForm'){var ans=Number(new FormData(f).get('answer'));if(ans===practiceState.question.answer)practiceState.score++;practiceState.index++;if(practiceState.index>=5){practiceState={type:'mathdone',score:practiceState.score}}else practiceState.question=makeMath();render()}
 });
 document.getElementById('topAvatar').addEventListener('click',function(){navigate('profile')});
 document.getElementById('coinButton').addEventListener('click',function(){navigate('shop')});
 nav.addEventListener('click',function(e){var b=e.target.closest('[data-page]');if(b)navigate(b.getAttribute('data-page'))});
 loadBoot();
 })();
+
 </script>
 </body>
 </html>
