@@ -266,6 +266,8 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
   function shopPage(){return head('فروشگاه','سکه، نشان‌ها و امکانات حساب')+'<div class="panel glass"><div class="quick-row"><div class="quick-icon">'+svg('coin')+'</div><div class="quick-copy"><b>کیف پول</b><small>موجودی فعلی سکه‌های تو</small></div><strong class="gold" style="font-size:20px">'+fmt(user.coins)+'</strong></div>'+button('shop','باز کردن فروشگاه','primary')+'</div><div class="empty">آیتم‌ها و امکانات فروشگاه از بخش فروشگاه ربات مدیریت می‌شوند.</div>'}
   function render(){
     document.getElementById('coins').textContent=fmt(user.coins);
+    document.getElementById('topAvatar').disabled=false;
+    document.getElementById('coinButton').disabled=false;
     document.getElementById('topAvatar').innerHTML=avatar();
     var pages={home:home,games:gamesPage,friends:friendsPage,groups:groupsPage,blind:blindPage,profile:profilePage,shop:shopPage};
     view.innerHTML=(pages[page]||home)();
@@ -296,6 +298,9 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
     if(gamesNode)gamesNode.innerHTML=gameGrid(games.slice(0,6));
     var name=view.querySelector('.player-name');if(name)name.textContent='در حال همگام‌سازی حساب…';
     var id=view.querySelector('.player-id');if(id)id.textContent='اطلاعات بازیکن در حال دریافت است';
+    document.getElementById('topAvatar').disabled=true;
+    document.getElementById('coinButton').disabled=true;
+    view.querySelectorAll('[data-action]').forEach(function(btn){btn.disabled=true});
     nav.classList.add('loading-nav');
   }
   async function boot(){
