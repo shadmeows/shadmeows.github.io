@@ -293,6 +293,8 @@ var quizBank=[
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function fmt(v){return Number(v||0).toLocaleString('fa-IR')}
 function notify(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(function(){toast.classList.remove('show')},2500)}
+function syncTelegramBackButton(){try{if(!tg||!tg.BackButton)return;if(page==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(_){}}
+function haptic(kind){try{if(tg&&tg.HapticFeedback)tg.HapticFeedback.impactOccurred(kind||'light')}catch(_){}}
 function stopPolling(){if(pollTimer){clearTimeout(pollTimer);pollTimer=null}}
 async function api(action,payload){
  var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},10000);
@@ -445,7 +447,7 @@ return ''}
 function render(){document.getElementById('coins').textContent=fmt(user.coins);document.getElementById('topAvatar').innerHTML=user.photoUrl?'<img src="'+esc(user.photoUrl)+'" alt="">':esc((user.firstName||'A').slice(0,1));document.getElementById('topAvatar').disabled=false;document.getElementById('coinButton').disabled=false;
 var pages={home:homePage,games:gamesPage,friends:friendsPage,groups:groupsPage,profile:profilePage,shop:shopPage,leaderboard:leaderboardPage,blind:blindPage,game:gamePage};
 var seq=++renderSeq;var out=pages[page]?pages[page]():homePage();
-Promise.resolve(out).then(function(html){if(seq===renderSeq)view.innerHTML=html;nav.querySelectorAll('button[data-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===page||page==='game'&&b.getAttribute('data-page')==='games')});nav.classList.remove('loading-nav')}).catch(function(err){if(seq===renderSeq)view.innerHTML='<div class="error">بارگذاری این بخش انجام نشد: '+esc(err.message)+'<button data-action="reload-page">تلاش دوباره</button></div>';nav.classList.remove('loading-nav')})}
+Promise.resolve(out).then(function(html){if(seq===renderSeq){view.innerHTML=html;if(page==='games')applyGameFilters();syncTelegramBackButton()}nav.querySelectorAll('button[data-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===page||page==='game'&&b.getAttribute('data-page')==='games')});nav.classList.remove('loading-nav')}).catch(function(err){if(seq===renderSeq)view.innerHTML='<div class="error">بارگذاری این بخش انجام نشد: '+esc(err.message)+'<button data-action="reload-page">تلاش دوباره</button></div>';nav.classList.remove('loading-nav')})}
 async function navigate(p){stopPolling();page=p;queueWaiting=false;if(p!=='game'){match=null;soloGame=null;gameId='';practiceState=null;localGame=null}nav.classList.add('loading-nav');render();syncTelegramBackButton()}
 async function openGame(id){stopPolling();gameId=id;page='game';match=null;soloGame=null;localGame=null;queueWaiting=false;practiceState=null;render();syncTelegramBackButton();if(['ttt','rps','four'].includes(id))pollMatch()}
 async function pollMatch(){stopPolling();if(page!=='game'||!gameId)return;try{var d=await api('queue.status',{game:gameId});if(d.match){match=d.match;queueWaiting=false;render()}else if(d.waiting){queueWaiting=true;render();}else{if(queueWaiting){queueWaiting=false;render()}}}catch(e){}if(page==='game'&&(queueWaiting||match&&match.state&&match.state.status==='play'))pollTimer=setTimeout(pollMatch,2200)}
@@ -462,6 +464,8 @@ var ctl=new AbortController(),timer=setTimeout(function(){ctl.abort()},12000),re
 var data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||'bootstrap_failed');user=data.user;render()
 }catch(e){view.innerHTML='<div class="error"><b>ورود به آپولو کامل نشد</b><p>'+esc(e.message)+'</p><button id="retry" type="button">تلاش دوباره</button></div>';document.getElementById('retry').onclick=loadBoot}}
 view.addEventListener('click',async function(e){
+var filter=e.target.closest('[data-game-filter]');if(filter){gameFilter=filter.getAttribute('data-game-filter')||'all';haptic('light');applyGameFilters();return}
+haptic('light');
 var pg=e.target.closest('[data-page]');if(pg){navigate(pg.getAttribute('data-page'));return}
 var gc=e.target.closest('[data-game]');if(gc){openGame(gc.getAttribute('data-game'));return}
 var b=e.target.closest('[data-action]');if(!b)return;var a=b.getAttribute('data-action'),id=b.getAttribute('data-id');
@@ -480,11 +484,48 @@ else if(a==='practice-answer'&&practiceState){var q=practiceState.items[practice
 else if(a==='rps-practice')rpsPractice(id);
 else if(a==='games-home')navigate('games');
 else if(a==='reload-page')render();
+else if(a==='local-reveal'){if(localGame){localGame.revealed=true;if(localGame.id==='mafia'){var pending=window.ApoloGameEngines.mafia.getPendingActors(localGame.state)||[];localGame.revealForActor=pending.filter(function(x){return Number.isInteger(x)})[0]}render()}}
+else if(a==='local-restart'){if(localGame){var gid=localGame.id,names=localGame.names.slice();startLocalGame(gid,names.length,names)}}
+else if(a==='chess-square'&&localGame&&localGame.id==='chess'){var c=localGame.chess,sq=id,piece=c.get(sq);if(!localGame.selected){if(piece&&piece.color===c.turn())localGame.selected=sq}else{try{var mv=c.move({from:localGame.selected,to:sq,promotion:'q'});if(mv){localGame.lastMove=mv.san;localGame.selected=null}else if(piece&&piece.color===c.turn())localGame.selected=sq;else localGame.selected=null}catch(_){if(piece&&piece.color===c.turn())localGame.selected=sq;else localGame.selected=null}}render()}
+else if(a==='ludo-roll'&&localGame&&localGame.id==='ludo'){var L=window.ApoloGameEngines.ludo,st=localGame.state,err=L.handleMove({action:'roll'},st,st.currentPlayer);if(err)notify(err);render()}
+else if(a==='ludo-move'&&localGame&&localGame.id==='ludo'){var L=window.ApoloGameEngines.ludo,st=localGame.state,err=L.handleMove({action:'move',planeIndex:Number(id)},st,st.currentPlayer);if(err)notify(err);render()}
+else if(a==='uno-play'&&localGame&&localGame.id==='uno'){var st=localGame.state,actor=window.ApoloGameEngines.uno.getCurrentActor(st),card=(st.hands[actor]||[]).find(function(x){return x.id===id});if(card&&card.color==='wild'){localGame.pendingCardId=id;render()}else unoLocalMove({cardId:id})}
+else if(a==='uno-color'&&localGame&&localGame.id==='uno')unoLocalMove({cardId:localGame.pendingCardId,chosenColor:id});
+else if(a==='uno-draw'&&localGame&&localGame.id==='uno')unoLocalMove({});
+else if(a==='uno-call'&&localGame&&localGame.id==='uno')unoLocalMove({uno:true});
+else if(a==='uno-challenge'&&localGame&&localGame.id==='uno')unoLocalMove({challengeResponse:id});
+else if(a==='td-draw'&&localGame&&localGame.id==='td'){var E=window.ApoloGameEngines.truthdare,err=E.handleMove({action:'draw',kind:id},localGame.state,localGame.turn);if(err)notify(err);else localGame.hasPrompt=true;render()}
+else if(a==='td-next'&&localGame&&localGame.id==='td'){localGame.turn=(localGame.turn+1)%localGame.names.length;localGame.state.currentCard=null;localGame.hasPrompt=false;render()}
+else if(a==='hokm-reveal'&&localGame&&localGame.id==='hokm'){localGame.revealed=true;render()}
+else if(a==='hokm-trump'&&localGame&&localGame.id==='hokm'){var g=localGame;g.trump=id;for(var round=0;round<8;round++)for(var p=0;p<4;p++)g.hands[p].push(g.deck.pop());g.stage='play';g.currentPlayer=g.hakem;g.revealed=false;render()}
+else if(a==='hokm-card'&&localGame&&localGame.id==='hokm'){var g=localGame,c=(g.hands[g.currentPlayer]||[]).find(function(x){return x.id===id}),legal=hokmLegalCards(g);if(!c||!legal.some(function(x){return x.id===id})){notify('باید از خال شروع‌شده پیروی کنی.')}else{var p=g.currentPlayer,ix=g.hands[p].findIndex(function(x){return x.id===id});g.hands[p].splice(ix,1);g.trick.push({player:p,card:c});if(g.trick.length===4)hokmResolveTrick(g);else g.currentPlayer=(p+1)%4;g.revealed=false;render()}}
+else if(a==='hokm-next'&&localGame&&localGame.id==='hokm'){localGame.trick=[];localGame.revealed=false;render()}
+else if(a==='mafia-reveal'&&localGame&&localGame.id==='mafia'){var pending=window.ApoloGameEngines.mafia.getPendingActors(localGame.state)||[];localGame.revealed=true;localGame.revealForActor=pending.filter(function(x){return Number.isInteger(x)})[0];render()}
+else if(a==='mafia-continue'&&localGame&&localGame.id==='mafia'){window.ApoloGameEngines.mafia.onTimeout(localGame.state);localGame.revealed=false;localGame.revealForActor=-1;render()}
+else if(a==='mafia-act'&&localGame&&localGame.id==='mafia')mafiaLocalAction(b);
+else if(a==='esf-next'&&localGame&&localGame.id==='esf'){localGame.round++;localGame.letter=randomPersianLetter();localGame.turn=0;localGame.responses=[];localGame.roundDone=false;render()}
 });
+function unoLocalMove(move){var g=localGame,E=window.ApoloGameEngines.uno,actor=E.getCurrentActor(g.state),err=E.handleMove(move,g.state,actor);if(err){var messages={uno_have_playable_card:'یک کارت قابل‌بازی داری؛ اول آن را بازی کن.',uno_cannot_play_card:'این کارت با رنگ یا عدد فعلی جور نیست.',uno_card_not_in_hand:'این کارت در دست تو نیست.',uno_invalid_color:'رنگ انتخاب‌شده درست نیست.',uno_must_draw_or_play:'باید جریمه را برداری یا کارت +۲/+۴ بازی کنی.',uno_no_challenge_pending:'چالش فعالی وجود ندارد.'};notify(messages[err]||err);return}g.pendingCardId=null;g.revealed=false;render()}
+function mafiaLocalAction(button){var g=localGame,E=window.ApoloGameEngines.mafia,s=g.state,phase=s.phase,pending=(E.getPendingActors(s)||[]).filter(function(x){return Number.isInteger(x)}),actor=pending[0],type=button.getAttribute('data-type'),target=Number(button.getAttribute('data-target')),data={};if(!Number.isInteger(actor))return;
+if(type==='kill'||type==='check'||type==='shoot'||type==='badge'||type==='vote')data={type:type,target:target};
+else if(type==='witch-save')data={type:'witch',save:true,poison:-1};
+else if(type==='witch-poison')data={type:'witch',save:false,poison:target};
+else if(type==='witch-skip')data={type:'witch',save:false,poison:-1};
+else if(type==='run-yes')data={type:'run',run:true};
+else if(type==='run-no')data={type:'run',run:false};
+else if(type==='end-speech')data={type:'end_speech'};
+else if(type==='ready')data={type:'ready'};
+else if(type==='vote-abstain')data={type:'vote',target:-1};
+else if(type==='shoot-skip')data={type:'shoot',target:-1};
+else if(type==='badge-skip')data={type:'badge',target:-1};
+else return;
+var err=E.handleMove(data,s,actor);if(err){notify(err);return}g.revealed=false;g.revealForActor=-1;render()}
 view.addEventListener('submit',async function(e){e.preventDefault();var f=e.target;
 if(f.id==='friendAddForm'){var code=String(new FormData(f).get('code')||'').trim();try{await api('friends.add',{code:code});cache.friends=null;notify('درخواست دوستی ارسال شد.');render()}catch(err){notify(err.message==='user_not_found'?'بازیکنی با این آیدی پیدا نشد.':err.message)}}
 else if(f.id==='profileForm'){var fd=new FormData(f);try{cache.profile=await api('profile.update',{displayName:String(fd.get('displayName')||''),bio:String(fd.get('bio')||'')});user.displayName=cache.profile.displayName;notify('پروفایل ذخیره شد.');render()}catch(err){notify(err.message)}}
 else if(f.id==='mathForm'){var ans=Number(new FormData(f).get('answer'));if(ans===practiceState.question.answer)practiceState.score++;practiceState.index++;if(practiceState.index>=5){practiceState={type:'mathdone',score:practiceState.score}}else practiceState.question=makeMath();render()}
+else if(f.id==='localStartForm'){var fd=new FormData(f),id=f.getAttribute('data-game-id'),count=Number(fd.get('count')),cfg=localSetupDefaults(id),names=parseLocalNames(fd.get('names'),count);if(!Number.isInteger(count)||count<cfg.min||count>cfg.max){notify('تعداد بازیکن‌ها معتبر نیست.');return}try{startLocalGame(id,count,names)}catch(err){notify(err.message||'شروع بازی انجام نشد.')}}
+else if(f.id==='nameFamilyForm'&&localGame&&localGame.id==='esf'){var fd=new FormData(f),keys=['name','family','city','country','animal','food','object','color'],values={};keys.forEach(function(k){values[k]=String(fd.get(k)||'').trim().replace(/\s+/g,' ')});localGame.responses.push({player:localGame.turn,values:values});if(localGame.responses.length>=localGame.names.length){var scores=localGame.scores.slice();keys.forEach(function(k){var list=localGame.responses.map(function(x){return String(x.values[k]||'').trim().toLocaleLowerCase()});list.forEach(function(v,i){if(!v)return;var same=list.filter(function(x){return x===v}).length;scores[i]+=same>1?5:10})});localGame.scores=scores;localGame.roundDone=true}else localGame.turn++;render()}
 });
 document.getElementById('topAvatar').addEventListener('click',function(){navigate('profile')});
 document.getElementById('coinButton').addEventListener('click',function(){navigate('shop')});
