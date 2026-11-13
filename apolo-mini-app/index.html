@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="night">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -7,7 +7,7 @@
 <meta name="description" content="آپولو؛ بازی، حریف‌یابی، لیگ و ارتباط با بازیکن‌ها">
 <link rel="manifest" href="./manifest.webmanifest">
 <title>APOLO · آپولو</title>
-<script src="https://telegram.org/js/telegram-web-app.js?65"></script>
+<script async data-tg-sdk src="https://telegram.org/js/telegram-web-app.js?65"></script>
 <style>
 :root{color-scheme:dark;--bg:#080b17;--panel:rgba(255,255,255,.065);--panel2:rgba(255,255,255,.095);--line:rgba(255,255,255,.115);--text:#f5f4ff;--muted:#959bb8;--violet:#a78bfa;--cyan:#5eead4;--gold:#f8cd78;--pink:#f2a8d1;--safe:env(safe-area-inset-bottom,0px);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -103,10 +103,83 @@ main{min-height:66vh}
 .loading-nav{opacity:.55;pointer-events:none}
 @media(min-width:530px){.grid-games{grid-template-columns:repeat(3,minmax(0,1fr))}.tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.ambient,.skeleton{animation:none}.game,.tile,.action,.primary{transition:none}}
+
+/* daisyUI Night preset tokens (upstream theme, MIT): https://github.com/saadeghi/daisyui */
+[data-theme="night"]{
+ color-scheme:dark;
+ --color-base-100:oklch(20.768% .039 265.754);
+ --color-base-200:oklch(19.314% .037 265.754);
+ --color-base-300:oklch(17.86% .034 265.754);
+ --color-base-content:oklch(84.153% .007 265.754);
+ --color-primary:oklch(75.351% .138 232.661);
+ --color-primary-content:oklch(15.07% .027 232.661);
+ --color-secondary:oklch(68.011% .158 276.934);
+ --color-secondary-content:oklch(13.602% .031 276.934);
+ --color-accent:oklch(72.36% .176 350.048);
+ --color-accent-content:oklch(14.472% .035 350.048);
+ --color-neutral:oklch(27.949% .036 260.03);
+ --color-neutral-content:oklch(85.589% .007 260.03);
+ --color-info:oklch(68.455% .148 237.251);
+ --color-info-content:oklch(0% 0 0);
+ --color-success:oklch(78.452% .132 181.911);
+ --color-success-content:oklch(15.69% .026 181.911);
+ --color-warning:oklch(83.242% .139 82.95);
+ --color-warning-content:oklch(16.648% .027 82.95);
+ --color-error:oklch(71.785% .17 13.118);
+ --color-error-content:oklch(14.357% .034 13.118);
+ --radius-selector:1rem;--radius-field:.5rem;--radius-box:1rem;
+ --size-selector:.25rem;--size-field:.25rem;--border:1px;--depth:0;--noise:0;
+ --bg:var(--color-base-100);--text:var(--color-base-content);
+ --muted:rgba(205,213,232,.62);--line:rgba(205,213,232,.12);
+ --violet:var(--color-secondary);--cyan:var(--color-success);
+ --gold:var(--color-warning);--pink:var(--color-accent);
+}
+body{background:var(--color-base-100);color:var(--color-base-content)}
+.ambient{display:none!important}
+.brandmark{background:var(--color-secondary);color:var(--color-secondary-content);box-shadow:0 5px 14px rgba(0,0,0,.2)}
+.brandtag{color:var(--muted);letter-spacing:.15px}
+.coin-pill{border-color:rgba(250,204,112,.22);background:rgba(250,204,112,.08);color:var(--color-warning);box-shadow:none}
+.avatar{background:var(--color-secondary);color:var(--color-secondary-content);border-color:rgba(205,193,255,.65);box-shadow:none}
+.glass{border:1px solid var(--line);background:rgba(34,43,64,.67);backdrop-filter:blur(16px) saturate(125%);-webkit-backdrop-filter:blur(16px) saturate(125%);box-shadow:0 8px 22px rgba(0,0,0,.13)}
+.player{background:rgba(35,45,66,.82);border:1px solid rgba(205,213,232,.14);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.player:after{display:none}
+.player-avatar{background:var(--color-secondary);color:var(--color-secondary-content);border-color:rgba(255,255,255,.14)}
+.player-title{border-color:rgba(177,169,255,.22);background:rgba(177,169,255,.10);color:#d9d3ff}
+.levelbox{background:rgba(255,255,255,.055);border-color:var(--line)}
+.levelbox b{color:var(--color-secondary)}
+.quick{background:rgba(42,55,80,.86);border:1px solid rgba(55,191,248,.18);box-shadow:0 8px 22px rgba(0,0,0,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.quick:before{display:none}
+.quick-icon{background:rgba(55,191,248,.10);border-color:rgba(55,191,248,.18)}
+.primary{background:var(--color-primary);color:var(--color-primary-content);box-shadow:none;border-radius:12px}
+.primary:active,.action:active,.game:active,.tile:active{transform:translateY(1px) scale(.985)}
+.game{background:rgba(34,44,65,.76);border-color:rgba(205,213,232,.105);box-shadow:0 5px 14px rgba(0,0,0,.09);min-height:86px}
+.game:after{display:none}
+.game-art{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;background:rgba(55,191,248,.11);border:1px solid rgba(55,191,248,.12);position:relative;z-index:1}
+.game-art img{width:33px;height:33px;object-fit:contain;display:block}
+.game-copy b{font-size:10px}
+.game-copy small{color:var(--muted)}
+.tile{background:rgba(34,44,65,.76);border-color:rgba(205,213,232,.11);box-shadow:0 5px 14px rgba(0,0,0,.09)}
+.tile-icon{background:rgba(177,169,255,.11);border-color:rgba(177,169,255,.15);color:var(--color-secondary)}
+.bottom-nav{background:rgba(29,37,56,.94);border-color:rgba(205,213,232,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 8px 24px rgba(0,0,0,.33)}
+.bottom-nav button.active{background:rgba(177,169,255,.14);color:#ddd6ff;box-shadow:inset 0 0 0 1px rgba(177,169,255,.16)}
+.bottom-nav button{transition:background .2s ease,color .2s ease,transform .2s ease}
+.section-title{letter-spacing:0}
+.section-more{color:var(--color-primary)}
+.page-title{letter-spacing:0}
+.page-subtitle,.stat-label,.row{color:var(--muted)}
+.action{background:rgba(255,255,255,.045);border-color:var(--line);transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s ease}
+.action.primary-action{background:var(--color-primary);color:var(--color-primary-content)}
+.progress{background:rgba(34,44,65,.75)}
+.fill{background:var(--color-primary);box-shadow:none}
+.error{background:rgba(110,52,66,.28);border-color:rgba(255,180,190,.2)}
+.game,.tile,.primary,.action,.bottom-nav button{transition-duration:.2s}
+@media(hover:hover){.game:hover,.tile:hover{transform:translateY(-2px);border-color:rgba(177,169,255,.28)}}
+@media(prefers-reduced-motion:reduce){.game,.tile,.primary,.action,.bottom-nav button{transition:none!important}}
+
 </style>
 </head>
 <body>
-<div class="ambient"></div>
+
 <div id="app">
 <header class="top">
   <div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-3.1L12 2Z"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2Z"/></svg></div><div><div class="brandname">APOLO</div><div class="brandtag">بازی کن · رقابت کن · دوست پیدا کن</div></div></div>
@@ -174,7 +247,7 @@ main{min-height:66vh}
     var url='https://t.me/'+BOT+'?start=app_'+action;
     try{tg.openTelegramLink(url)}catch(e){location.href=url}
   }
-  function gameCard(g){return '<button class="game" data-game="'+g.id+'" style="--accent:'+g.color+'"><span class="game-icon">'+g.icon+'</span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
+  function gameCard(g){return '<button class="game" data-game="'+g.id+'" style="--accent:'+g.color+'" '+(user?"":"disabled aria-disabled=\\"true\\"")+'><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
   function tile(id,ico,title,sub,color){return '<button class="tile glass" data-page="'+id+'" style="--tile:'+color+'"><span class="tile-icon">'+ico+'</span><span><b>'+title+'</b><small>'+sub+'</small></span></button>'}
   function head(title,sub,back){return '<div class="page-head"><button class="back" data-page="'+(back||'home')+'" aria-label="بازگشت">'+svg('arrow')+'</button><div><div class="page-title">'+title+'</div><div class="page-subtitle">'+(sub||'')+'</div></div></div>'}
   function button(action,label,kind){return '<button class="action '+(kind==='primary'?'primary-action':'')+'" data-action="'+action+'">'+label+'</button>'}
@@ -184,7 +257,8 @@ main{min-height:66vh}
   function stats(){return '<div class="stats"><div class="stat glass"><div class="stat-label">⚡ تجربه (XP)</div><b class="stat-value violet">'+fmt(user.xp)+'</b></div><div class="stat glass"><div class="stat-label">🪙 سکه</div><b class="stat-value gold">'+fmt(user.coins)+'</b></div><div class="stat glass"><div class="stat-label">'+svg('trophy')+' بردها</div><b class="stat-value cyan">'+fmt(user.wins)+'</b></div></div>'}
   function progress(){var pct=user.boxes?Math.max(0,Math.min(100,100*user.filled/user.boxes)):0;return '<div class="progress glass"><div class="progress-head"><span>پیشرفت سطح '+fmt(user.level)+'</span><b>'+fmt(user.filled)+' / '+fmt(user.boxes)+' XP</b></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'}
   function home(){return playerCard()+stats()+progress()+'<div class="section-head"><b class="section-title">حریف‌یابی سریع</b><button class="section-more" data-action="quick">شروع ←</button></div><section class="quick"><div class="quick-row"><div class="quick-icon">'+svg('trophy')+'</div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه وارد صف شو</small></div><button class="primary" data-action="quick">شروع</button></div></section><div class="section-head"><b class="section-title">بازی‌های آپولو</b><button class="section-more" data-page="games">همه بازی‌ها ←</button></div>'+gameGrid(games.slice(0,6))+'<div class="section-head"><b class="section-title">ارتباط با بازیکن‌ها</b><button class="section-more" data-page="friends">مشاهده ←</button></div><div class="tile-grid">'+tile('friends',svg('users'),'دوستان',fmt(user.friends)+' دوست','#5eead4')+tile('groups',svg('group'),'گروه‌ها',fmt(user.activeGroups)+' گروه فعال','#f8cd78')+tile('blind',svg('heart'),'بلایند دیت',user.blindStatus||'آشنایی و گفت‌وگو','#f2a8d1')+'</div>'}
-  function gamesPage(){return head('بازی‌های آپولو','انتخاب بازی و شروع مسابقه')+'<section class="quick"><div class="quick-row"><div class="quick-icon">'+svg('trophy')+'</div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه وارد صف شو</small></div><button class="primary" data-action="quick">حریف‌یابی</button></div></section><div class="section-head"><b class="section-title">همهٔ بازی‌ها</b></div>'+gameGrid(games)+'<div class="panel glass"><div class="row"><span>🏆 لیگ جامع</span><b>انتخاب بازی و رقابت</b></div><button class="action primary-action" data-action="league">ورود به لیگ</button></div>'}
+  function gameCategory(title,description,ids){var list=games.filter(function(g){return ids.indexOf(g.id)>=0});return '<section class="game-category"><div class="section-head"><div><b class="section-title">'+title+'</b><div class="page-subtitle">'+description+'</div></div><small class="page-subtitle">'+fmt(list.length)+' بازی</small></div>'+gameGrid(list)+'</section>'}
+  function gamesPage(){return head('بازی‌های آپولو','بازی‌ها را بر اساس سبک انتخاب کن')+'<section class="quick"><div class="quick-row"><div class="quick-icon">'+svg('trophy')+'</div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه وارد صف شو</small></div><button class="primary" data-action="quick">حریف‌یابی</button></div></section>'+gameCategory('فکری و استراتژی','حرکت بعدی را هوشمندانه انتخاب کن',['ttt','four','chess','ludo'])+gameCategory('دانش و سرعت','سرعت عمل و دانسته‌هایت را بسنج',['quiz','math','esf','rps'])+gameCategory('دورهمی و کارتی','برای جمع‌های دوستانه و رقابت گروهی',['td','uno','hokm','mafia'])}
   function friendsPage(){return head('دوستان','مدیریت دوست‌ها و دعوت به بازی')+'<div class="stats"><div class="stat glass"><div class="stat-label">👥 دوستان</div><b class="stat-value cyan">'+fmt(user.friends)+'</b></div><div class="stat glass"><div class="stat-label">📩 درخواست‌های دریافتی</div><b class="stat-value violet">'+fmt(user.friendRequests)+'</b></div><div class="stat glass"><div class="stat-label">🏅 رتبه</div><b class="stat-value gold">#'+fmt(user.rank)+'</b></div></div><div class="panel glass"><div class="row"><span>بازی با دوست</span><b>دعوت به مسابقه</b></div><div class="row"><span>افزودن دوست</span><b>با آیدی بازی</b></div><div class="row"><span>درخواست‌های دوستی</span><b>'+fmt(user.friendRequests)+'</b></div>'+button('friends','مدیریت دوستان','primary')+'</div>'}
   function groupsPage(){return head('گروه‌ها','پیدا کردن و مدیریت گروه‌های بازی')+'<div class="stats"><div class="stat glass"><div class="stat-label">🏘️ گروه‌های فعال</div><b class="stat-value cyan">'+fmt(user.activeGroups)+'</b></div><div class="stat glass"><div class="stat-label">📌 گروه‌های من</div><b class="stat-value violet">'+fmt(user.myGroups)+'</b></div><div class="stat glass"><div class="stat-label">🎮 بازی گروهی</div><b class="stat-value gold">فعال</b></div></div><div class="panel glass"><div class="row"><span>ساخت و ثبت گروه</span><b>بازار گروه‌ها</b></div><div class="row"><span>پیدا کردن گروه</span><b>فهرست گروه‌های فعال</b></div>'+button('groups','باز کردن گروه‌ها','primary')+'</div>'}
   function blindPage(){return head('بلایند دیت','آشنایی و گفت‌وگوی ناشناس')+'<div class="panel glass"><div style="display:flex;align-items:center;gap:12px"><div class="tile-icon" style="--tile:#f2a8d1;width:48px;height:48px">💘</div><div><b style="font-size:12px">وضعیت فعلی</b><div class="page-subtitle">'+esc(user.blindStatus||'آمادهٔ شروع')+'</div></div></div><div class="row"><span>پیدا کردن نفر هم‌هدف</span><b>جست‌وجوی ناشناس</b></div><div class="row"><span>گفت‌وگو</span><b>پیام و رسانه</b></div>'+button('blind','ورود به بلایند دیت','primary')+'</div>'}
@@ -199,34 +273,67 @@ main{min-height:66vh}
     nav.classList.remove('loading-nav');
   }
   function showError(code){
-    var message='ارتباط با سرور برقرار نشد. اتصال اینترنت را بررسی کن و دوباره تلاش کن.';
-    if(code==='invalid_init_data')message='اطلاعات ورود تلگرام تأیید نشد. مینی‌اپ را کامل ببند و دوباره از داخل ربات باز کن.';
+    var old=document.getElementById('bootError');if(old)old.remove();
+    var message='اتصال به سرور بیش از حد طول کشید. لابی باز است؛ دوباره تلاش کن.';
+    if(code==='invalid_init_data')message='اطلاعات ورود تلگرام تأیید نشد. مینی‌اپ را کامل ببند و از دکمهٔ ورود داخل ربات دوباره باز کن.';
     if(code==='user_unavailable')message='این حساب در حال حاضر امکان ورود به آپولو را ندارد.';
-    if(code==='missing_token')message='تنظیم اتصال ربات روی سرور کامل نیست؛ این مورد باید از سمت پشتیبانی بررسی شود.';
-    view.innerHTML='<div class="error"><b>اتصال کامل نشد</b><div>'+message+'</div><button id="retry" type="button">تلاش دوباره</button></div>';
-    document.getElementById('retry').addEventListener('click',boot);
+    if(code==='telegram_bridge')message='اتصال تلگرام آماده نشد. یک بار مینی‌اپ را ببند و دوباره باز کن.';
+    if(code==='missing_init_data')message='دادهٔ ورود تلگرام دریافت نشد. مینی‌اپ را از دکمهٔ داخل گفت‌وگوی ربات باز کن.';
+    if(code==='timeout'||code==='AbortError')message='دریافت اطلاعات از سرور طول کشید. بازی‌ها را می‌بینی؛ برای همگام‌سازی دوباره تلاش کن.';
+    var box=document.createElement('div');box.className='error';box.id='bootError';
+    box.innerHTML='<b>همگام‌سازی کامل نشد</b><div>'+message+'</div><button id="retry" type="button">تلاش دوباره</button>';
+    view.insertBefore(box,view.firstChild);
+    document.getElementById('retry').addEventListener('click',function(){boot()});
+  }
+  async function waitForTelegram(){
+    var waited=0;
+    while(!(window.Telegram&&window.Telegram.WebApp)&&waited<6500){await new Promise(function(resolve){setTimeout(resolve,100)});waited+=100}
+    tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
+    return tg;
+  }
+  function previewLobby(){
+    var gamesNode=document.getElementById('previewGames');
+    if(gamesNode)gamesNode.innerHTML=gameGrid(games.slice(0,6));
+    var name=view.querySelector('.player-name');if(name)name.textContent='در حال همگام‌سازی حساب…';
+    var id=view.querySelector('.player-id');if(id)id.textContent='اطلاعات بازیکن در حال دریافت است';
+    nav.classList.add('loading-nav');
   }
   async function boot(){
-    if(!tg||!tg.initData){view.innerHTML='<div class="error"><b>برای ورود به آپولو</b><div>مینی‌اپ را از داخل ربات آپولو باز کن.</div><button id="openBot" type="button">باز کردن ربات</button></div>';var ob=document.getElementById('openBot');if(ob)ob.onclick=function(){location.href='https://t.me/'+BOT};return}
+    var error=document.getElementById('bootError');if(error)error.remove();
+    previewLobby();
     try{
-      var response=await fetch('/api/bootstrap',{method:'POST',headers:{'content-type':'application/json','authorization':'tma '+tg.initData},body:'{}',cache:'no-store'});
+      if(!tg)await waitForTelegram();
+      if(!tg)throw new Error('telegram_bridge');
+      try{tg.ready();tg.expand();tg.setHeaderColor('#'+ '1d263b');tg.setBackgroundColor('#1d263b');if(tg.setBottomBarColor)tg.setBottomBarColor('#1d263b')}catch(_){}
+      var initData=String(tg.initData||'');
+      if(!initData)throw new Error('missing_init_data');
+      var controller=new AbortController();
+      var timeout=setTimeout(function(){controller.abort()},12000);
+      var response;
+      try{
+        response=await fetch('/api/bootstrap',{method:'POST',headers:{'content-type':'application/json','authorization':'tma '+initData},body:'{}',cache:'no-store',signal:controller.signal});
+      }finally{clearTimeout(timeout)}
       var data=await response.json();
       if(!response.ok||!data.ok)throw new Error(data.error||'network');
       user=data.user;
       render();
-    }catch(err){console.warn('Apolo bootstrap failed',String(err));showError(String(err&&err.message||'network'))}
+    }catch(err){
+      console.warn('Apolo bootstrap failed',String(err));
+      showError(err&&err.name==='AbortError'?'timeout':String(err&&err.message||'network'));
+    }
   }
   view.addEventListener('click',function(e){
     var p=e.target.closest('[data-page]');
-    if(p){page=p.getAttribute('data-page');if(user)render();return}
+    if(p){if(!user)return;page=p.getAttribute('data-page');render();return}
     var a=e.target.closest('[data-action]');
-    if(a){var action=a.getAttribute('data-action');if(action==='quick')goBot('quick');else if(action==='league')goBot('games');else goBot(action);return}
+    if(a){if(!user)return;var action=a.getAttribute('data-action');if(action==='quick')goBot('quick');else if(action==='league')goBot('games');else goBot(action);return}
     var g=e.target.closest('[data-game]');
-    if(g)goBot('game_'+g.getAttribute('data-game'));
+    if(g&&user)goBot('game_'+g.getAttribute('data-game'));
   });
   nav.addEventListener('click',function(e){var b=e.target.closest('[data-page]');if(b&&user){page=b.getAttribute('data-page');render()}});
-  document.getElementById('topAvatar').addEventListener('click',function(){if(user){page='profile';render()}});\n  document.getElementById('coinButton').addEventListener('click',function(){if(user){page='shop';render()}});
-  if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#080b17');tg.setBackgroundColor('#080b17');if(tg.setBottomBarColor)tg.setBottomBarColor('#080b17')}catch(e){}}
+  document.getElementById('topAvatar').addEventListener('click',function(){if(user){page='profile';render()}});
+  document.getElementById('coinButton').addEventListener('click',function(){if(user){page='shop';render()}});
+  previewLobby();
   boot();
 })();
 </script>
