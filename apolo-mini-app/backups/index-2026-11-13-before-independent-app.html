@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#080b17">
+<meta name="description" content="آپولو؛ بازی، حریف‌یابی، لیگ و ارتباط با بازیکن‌ها">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>APOLO · آپولو</title>
+<script async data-tg-sdk src="https://telegram.org/js/telegram-web-app.js?65"></script>
+<style>
+:root{color-scheme:dark;--bg:#080b17;--panel:rgba(255,255,255,.065);--panel2:rgba(255,255,255,.095);--line:rgba(255,255,255,.115);--text:#f5f4ff;--muted:#959bb8;--violet:#a78bfa;--cyan:#5eead4;--gold:#f8cd78;--pink:#f2a8d1;--safe:env(safe-area-inset-bottom,0px);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{padding:calc(12px + env(safe-area-inset-top,0px)) 13px calc(94px + var(--safe));overflow-x:hidden;background:radial-gradient(ellipse at 86% -12%,rgba(127,93,255,.25),transparent 38%),radial-gradient(ellipse at 2% 36%,rgba(45,212,191,.13),transparent 33%),linear-gradient(160deg,#080b17,#0b1020 60%,#080b17)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.55;cursor:default}
+#app{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.ambient{position:fixed;inset:-20%;pointer-events:none;z-index:0;background:radial-gradient(circle at 18% 30%,rgba(113,92,255,.12),transparent 25%),radial-gradient(circle at 78% 65%,rgba(34,211,190,.10),transparent 24%);filter:blur(45px);animation:ambient 18s ease-in-out infinite alternate}
+@keyframes ambient{to{transform:translate3d(2%,1%,0) scale(1.07)}}
+.top{display:flex;align-items:center;justify-content:space-between;margin:1px 1px 16px;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brandmark{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(140deg,#d0c3ff,#8971ed 55%,#58dfcc);box-shadow:0 8px 24px rgba(133,106,234,.35),inset 0 1px 0 rgba(255,255,255,.6);color:#17152b}
+.brandmark svg{width:25px;height:25px}
+.brandname{font-size:18px;font-weight:1000;letter-spacing:1.6px;line-height:1.1}
+.brandtag{font-size:8px;color:#9298b4;letter-spacing:1.3px;margin-top:4px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.coin-pill{display:flex;align-items:center;gap:6px;border:1px solid rgba(248,205,120,.25);background:rgba(248,205,120,.09);color:var(--gold);border-radius:13px;padding:8px 10px;font-size:10px;font-weight:900;backdrop-filter:blur(16px)}
+.coin-pill svg{width:15px;height:15px}
+.avatar{width:39px;height:39px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:linear-gradient(140deg,#b6a4ff,#4edac7);color:#151329;border:2px solid rgba(194,174,255,.8);font-weight:950;font-size:13px;box-shadow:0 4px 14px rgba(118,97,208,.24)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+main{min-height:66vh}
+.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));backdrop-filter:blur(23px) saturate(155%);-webkit-backdrop-filter:blur(23px) saturate(155%);box-shadow:inset 0 1px 0 rgba(255,255,255,.075),0 12px 30px rgba(0,0,0,.16)}
+.player{display:flex;align-items:center;gap:11px;padding:14px;border-radius:21px;position:relative;overflow:hidden;background:linear-gradient(125deg,rgba(137,112,231,.2),rgba(255,255,255,.07) 54%,rgba(45,212,191,.1));border:1px solid rgba(255,255,255,.15);box-shadow:0 18px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.13)}
+.player:after{content:"";position:absolute;left:-58px;top:-74px;width:140px;height:140px;border-radius:50%;background:rgba(185,164,255,.16);filter:blur(9px)}
+.player-avatar{width:52px;height:52px;flex:0 0 52px;border-radius:17px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#c7b7ff,#58ddce);border:1px solid rgba(255,255,255,.35);color:#17152b;font-size:18px;font-weight:1000;position:relative;z-index:1}
+.player-avatar img{width:100%;height:100%;object-fit:cover}
+.player-info{min-width:0;flex:1;position:relative;z-index:1}
+.player-name{display:block;font-size:12px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-id{display:block;color:#b3b2d0;font-size:9px;margin-top:5px;direction:ltr;text-align:right}
+.player-title{display:inline-flex;margin-top:7px;border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:3px 8px;color:#d5caff;background:rgba(255,255,255,.07);font-size:8px}
+.levelbox{position:relative;z-index:1;min-width:54px;padding:7px 8px;border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.07);border-radius:13px;text-align:center}
+.levelbox small{display:block;color:#aaa8c6;font-size:7px;letter-spacing:1px}
+.levelbox b{font-size:19px;color:#ded4ff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat{padding:11px;border-radius:16px;min-width:0}
+.stat-label{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:8px;white-space:nowrap}.stat-label svg{width:13px;height:13px;flex:0 0 13px}
+.stat-label svg{width:13px;height:13px}
+.stat-value{display:block;font-size:18px;font-weight:1000;margin-top:6px}
+.violet{color:#cbbdff}.cyan{color:var(--cyan)}.gold{color:var(--gold)}.pink{color:var(--pink)}
+.progress{border-radius:16px;padding:12px 13px;margin-top:2px}
+.progress-head{display:flex;align-items:center;justify-content:space-between;font-size:8px;color:#c7c3dd}
+.track{height:6px;border-radius:20px;background:rgba(255,255,255,.10);overflow:hidden;margin-top:9px}
+.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#9d7af4,#53dec9);box-shadow:0 0 12px rgba(133,117,235,.4)}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 10px;gap:8px}
+.section-title{font-size:13px;font-weight:950;letter-spacing:-.2px}
+.section-more{border:0;background:none;color:#b9a8ff;font-size:9px;padding:5px}
+.quick{padding:15px;border-radius:21px;position:relative;overflow:hidden;background:linear-gradient(115deg,rgba(112,82,199,.39),rgba(43,47,87,.52) 55%,rgba(29,151,145,.23));border:1px solid rgba(190,170,255,.28);box-shadow:0 18px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.15);backdrop-filter:blur(24px) saturate(160%)}
+.quick:before{content:"✦";position:absolute;left:13px;top:-10px;font-size:76px;color:rgba(255,255,255,.08)}
+.quick-row{display:flex;align-items:center;gap:11px;position:relative;z-index:1}
+.quick-icon{width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.quick-icon svg{width:24px;height:24px}
+.quick-copy{min-width:0;flex:1}
+.quick-copy b{display:block;font-size:12px}
+.quick-copy small{display:block;color:#d2cbea;font-size:8px;margin-top:5px}
+.primary{border:0;border-radius:13px;padding:11px 13px;background:linear-gradient(110deg,#c3b2ff,#7b70e8 55%,#62decf);color:#18172c;font-weight:1000;font-size:9px;white-space:nowrap;box-shadow:0 8px 21px rgba(82,75,174,.25),inset 0 1px 0 rgba(255,255,255,.35)}
+.primary:active,.action:active,.game:active,.tile:active{transform:scale(.975)}
+.grid-games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.game{min-height:86px;padding:11px;border-radius:17px;text-align:right;display:flex;align-items:center;gap:9px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.11);transition:transform .17s ease,border-color .17s ease}
+.game:after{content:"";position:absolute;left:-24px;top:-30px;width:75px;height:75px;border-radius:50%;background:var(--accent);opacity:.16;filter:blur(7px)}
+.game-icon{width:39px;height:39px;flex:0 0 39px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 17%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);font-size:20px;position:relative;z-index:1}
+.game-copy{min-width:0;position:relative;z-index:1}
+.game-copy b{display:block;font-size:10px;line-height:1.45}
+.game-copy small{display:block;color:var(--muted);font-size:8px;margin-top:4px}
+.tile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.tile{min-height:78px;padding:11px;border-radius:17px;text-align:right;display:flex;align-items:center;gap:10px;transition:transform .17s ease}
+.tile-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13);color:var(--tile);font-size:18px}
+.tile-icon svg{width:20px;height:20px}
+.tile b{display:block;font-size:10px}
+.tile small{display:block;color:var(--muted);font-size:8px;margin-top:5px}
+.page-head{display:flex;align-items:center;gap:10px;margin:2px 0 16px}
+.back{width:35px;height:35px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.07)}
+.back svg{width:17px;height:17px}
+.page-title{font-size:19px;font-weight:1000}
+.page-subtitle{font-size:8px;color:var(--muted);margin-top:4px}
+.panel{padding:14px;border-radius:18px;margin:10px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;border-bottom:1px solid rgba(255,255,255,.07);font-size:9px;color:#c5c3db}
+.row:last-child{border-bottom:0}
+.row b{font-size:10px;color:var(--text)}
+.action{width:100%;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.075);font-size:10px;font-weight:850;text-align:center;margin-top:9px;transition:transform .16s ease}
+.action.primary-action{border:0;background:linear-gradient(110deg,#bba7ff,#6f6cda 60%,#5bdcca);color:#18172d}
+.empty{padding:22px 15px;border:1px dashed rgba(255,255,255,.2);border-radius:17px;text-align:center;color:var(--muted);font-size:9px;line-height:2}
+.bottom-nav{position:fixed;z-index:10;bottom:calc(7px + var(--safe));left:50%;transform:translateX(-50%);width:min(610px,calc(100% - 22px));display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:6px;border:1px solid rgba(255,255,255,.15);border-radius:20px;background:rgba(14,17,34,.78);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:0 15px 38px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1)}
+.bottom-nav button{min-height:48px;border:0;border-radius:14px;background:transparent;color:#9095b0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:8px;font-weight:800}
+.bottom-nav button svg{width:18px;height:18px}
+.bottom-nav button.active{color:#e5dcff;background:linear-gradient(145deg,rgba(167,139,250,.21),rgba(94,234,212,.08));box-shadow:inset 0 0 0 1px rgba(190,174,255,.13)}
+.toast{position:fixed;z-index:20;bottom:calc(80px + var(--safe));left:50%;transform:translateX(-50%);padding:10px 14px;border:1px solid var(--line);border-radius:13px;background:rgba(32,35,58,.95);box-shadow:0 8px 26px rgba(0,0,0,.4);font-size:9px;display:none;max-width:90%;text-align:center}
+.toast.show{display:block}
+.skeleton{height:8px;border-radius:30px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.19),rgba(255,255,255,.04));background-size:220% 100%;animation:shimmer 1.2s ease-in-out infinite}
+@keyframes shimmer{to{background-position:-220% 0}}
+.error{padding:14px;border:1px solid rgba(255,153,174,.23);border-radius:16px;background:rgba(95,35,59,.25);color:#f4dbe4;text-align:center;font-size:9px;line-height:1.9}
+.error button{margin-top:10px;width:100%;padding:10px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(255,255,255,.08);font-weight:900}
+.loading-nav{opacity:.55;pointer-events:none}
+@media(min-width:530px){.grid-games{grid-template-columns:repeat(3,minmax(0,1fr))}.tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.ambient,.skeleton{animation:none}.game,.tile,.action,.primary{transition:none}}
+
+/* daisyUI Night preset tokens (upstream theme, MIT): https://github.com/saadeghi/daisyui */
+[data-theme="night"]{
+ color-scheme:dark;
+ --color-base-100:oklch(20.768% .039 265.754);
+ --color-base-200:oklch(19.314% .037 265.754);
+ --color-base-300:oklch(17.86% .034 265.754);
+ --color-base-content:oklch(84.153% .007 265.754);
+ --color-primary:oklch(75.351% .138 232.661);
+ --color-primary-content:oklch(15.07% .027 232.661);
+ --color-secondary:oklch(68.011% .158 276.934);
+ --color-secondary-content:oklch(13.602% .031 276.934);
+ --color-accent:oklch(72.36% .176 350.048);
+ --color-accent-content:oklch(14.472% .035 350.048);
+ --color-neutral:oklch(27.949% .036 260.03);
+ --color-neutral-content:oklch(85.589% .007 260.03);
+ --color-info:oklch(68.455% .148 237.251);
+ --color-info-content:oklch(0% 0 0);
+ --color-success:oklch(78.452% .132 181.911);
+ --color-success-content:oklch(15.69% .026 181.911);
+ --color-warning:oklch(83.242% .139 82.95);
+ --color-warning-content:oklch(16.648% .027 82.95);
+ --color-error:oklch(71.785% .17 13.118);
+ --color-error-content:oklch(14.357% .034 13.118);
+ --radius-selector:1rem;--radius-field:.5rem;--radius-box:1rem;
+ --size-selector:.25rem;--size-field:.25rem;--border:1px;--depth:0;--noise:0;
+ --bg:var(--color-base-100);--text:var(--color-base-content);
+ --muted:rgba(205,213,232,.62);--line:rgba(205,213,232,.12);
+ --violet:var(--color-secondary);--cyan:var(--color-success);
+ --gold:var(--color-warning);--pink:var(--color-accent);
+}
+body{background:var(--color-base-100);color:var(--color-base-content)}
+.ambient{display:none!important}
+.brandmark{background:var(--color-secondary);color:var(--color-secondary-content);box-shadow:0 5px 14px rgba(0,0,0,.2)}
+.brandtag{color:var(--muted);letter-spacing:.15px}
+.coin-pill{border-color:rgba(250,204,112,.22);background:rgba(250,204,112,.08);color:var(--color-warning);box-shadow:none}
+.avatar{background:var(--color-secondary);color:var(--color-secondary-content);border-color:rgba(205,193,255,.65);box-shadow:none}
+.glass{border:1px solid var(--line);background:rgba(34,43,64,.67);backdrop-filter:blur(16px) saturate(125%);-webkit-backdrop-filter:blur(16px) saturate(125%);box-shadow:0 8px 22px rgba(0,0,0,.13)}
+.player{background:rgba(35,45,66,.82);border:1px solid rgba(205,213,232,.14);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.player:after{display:none}
+.player-avatar{background:var(--color-secondary);color:var(--color-secondary-content);border-color:rgba(255,255,255,.14)}
+.player-title{border-color:rgba(177,169,255,.22);background:rgba(177,169,255,.10);color:#d9d3ff}
+.levelbox{background:rgba(255,255,255,.055);border-color:var(--line)}
+.levelbox b{color:var(--color-secondary)}
+.quick{background:rgba(42,55,80,.86);border:1px solid rgba(55,191,248,.18);box-shadow:0 8px 22px rgba(0,0,0,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.quick:before{display:none}
+.quick-icon{background:rgba(55,191,248,.10);border-color:rgba(55,191,248,.18)}
+.primary{background:var(--color-primary);color:var(--color-primary-content);box-shadow:none;border-radius:12px}
+.primary:active,.action:active,.game:active,.tile:active{transform:translateY(1px) scale(.985)}
+.game{background:rgba(34,44,65,.76);border-color:rgba(205,213,232,.105);box-shadow:0 5px 14px rgba(0,0,0,.09);min-height:86px}
+.game:after{display:none}
+.game-art{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;background:rgba(55,191,248,.11);border:1px solid rgba(55,191,248,.12);position:relative;z-index:1}
+.game-art img{width:33px;height:33px;object-fit:contain;display:block}
+.game-copy b{font-size:10px}
+.game-copy small{color:var(--muted)}
+.tile{background:rgba(34,44,65,.76);border-color:rgba(205,213,232,.11);box-shadow:0 5px 14px rgba(0,0,0,.09)}
+.tile-icon{background:rgba(177,169,255,.11);border-color:rgba(177,169,255,.15);color:var(--color-secondary)}
+.bottom-nav{background:rgba(29,37,56,.94);border-color:rgba(205,213,232,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 8px 24px rgba(0,0,0,.33)}
+.bottom-nav button.active{background:rgba(177,169,255,.14);color:#ddd6ff;box-shadow:inset 0 0 0 1px rgba(177,169,255,.16)}
+.bottom-nav button{transition:background .2s ease,color .2s ease,transform .2s ease}
+.section-title{letter-spacing:0}
+.section-more{color:var(--color-primary)}
+.page-title{letter-spacing:0}
+.page-subtitle,.stat-label,.row{color:var(--muted)}
+.action{background:rgba(255,255,255,.045);border-color:var(--line);transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s ease}
+.action.primary-action{background:var(--color-primary);color:var(--color-primary-content)}
+.progress{background:rgba(34,44,65,.75)}
+.fill{background:var(--color-primary);box-shadow:none}
+.error{background:rgba(110,52,66,.28);border-color:rgba(255,180,190,.2)}
+.game,.tile,.primary,.action,.bottom-nav button{transition-duration:.2s}
+@media(hover:hover){.game:hover,.tile:hover{transform:translateY(-2px);border-color:rgba(177,169,255,.28)}}
+@media(prefers-reduced-motion:reduce){.game,.tile,.primary,.action,.bottom-nav button{transition:none!important}}
+
+</style>
+</head>
+<body>
+
+<div id="app">
+<header class="top">
+  <div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-3.1L12 2Z"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2Z"/></svg></div><div><div class="brandname">APOLO</div><div class="brandtag">بازی کن · رقابت کن · دوست پیدا کن</div></div></div>
+  <div class="top-actions"><button class="coin-pill" id="coinButton" type="button" aria-label="فروشگاه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.6-.7-1.5-1-3-1-1.4 0-2.5.7-2.5 1.8 0 3 6 1.3 6 4.5 0 1.2-1.2 2.2-3 2.2-1.5 0-2.6-.4-3.5-1.2M12 5.5v13"/></svg><span id="coins">—</span></button><button id="topAvatar" class="avatar" aria-label="پروفایل بازیکن">A</button></div>
+</header>
+<main id="view" aria-live="polite">
+  <section class="player glass"><div class="player-avatar">✦</div><div class="player-info"><b class="player-name">در حال ورود به آپولو…</b><small class="player-id">PLAYER</small></div><div class="levelbox"><small>LEVEL</small><b>—</b></div></section>
+  <div class="stats"><div class="stat glass"><div class="stat-label">⚡ تجربه (XP)</div><div class="skeleton" style="margin-top:9px;width:60%"></div></div><div class="stat glass"><div class="stat-label">🪙 سکه</div><div class="skeleton" style="margin-top:9px;width:50%"></div></div><div class="stat glass"><div class="stat-label">🏆 بردها</div><div class="skeleton" style="margin-top:9px;width:50%"></div></div></div>
+  <div class="section-head"><b class="section-title">حریف‌یابی سریع</b></div><section class="quick"><div class="quick-row"><div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5 4-4 4 4-4 4M9.5 18.5l-4 4-4-4 4-4"/><path d="m3 3 18 18M21 3 3 21"/></svg></div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه، همین الان وارد صف شو</small></div><button class="primary" disabled>شروع</button></div></section>
+  <div class="section-head"><b class="section-title">بازی‌های آپولو</b></div>
+  <div class="grid-games" id="previewGames"></div>
+</main>
+<nav class="bottom-nav loading-nav" id="nav">
+  <button data-page="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg>خانه</button>
+  <button data-page="games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a4 4 0 0 1 3.8 5.2l-1 3.2a2 2 0 0 1-3.3.8L14 14H10l-2.5 3.2a2 2 0 0 1-3.3-.8l-1-3.2A4 4 0 0 1 7 8Z"/><path d="M7 11v4M5 13h4M16 12h.01M18 14h.01"/></svg>بازی‌ها</button>
+  <button data-page="friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>دوستان</button>
+  <button data-page="groups"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5M9 21v-6h6v6"/></svg>گروه‌ها</button>
+  <button data-page="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>پروفایل</button>
+</nav>
+<div id="toast" class="toast"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
+  var BOT='Bazicentersbot';
+  var view=document.getElementById('view');
+  var nav=document.getElementById('nav');
+  var toast=document.getElementById('toast');
+  var user=null;
+  var page='home';
+  var games=[
+    {id:'ttt',icon:'⭕',title:'دوز',sub:'دو نفره · تک‌نفره',color:'#a78bfa'},
+    {id:'rps',icon:'✊',title:'سنگ‌کاغذ‌قیچی',sub:'حریف تصادفی · دعوت دوست',color:'#f4a4bf'},
+    {id:'quiz',icon:'🧠',title:'کوییز دانستنی',sub:'دانش و سرعت عمل',color:'#5eead4'},
+    {id:'math',icon:'⚡',title:'چالش ریاضی',sub:'مسابقهٔ زمان‌دار',color:'#f8cd78'},
+    {id:'four',icon:'🟡',title:'چهاردرخط',sub:'استراتژی و رقابت',color:'#8ed7ee'},
+    {id:'chess',icon:'♟️',title:'شطرنج',sub:'تک‌نفره · دونفره',color:'#b8a5ff'},
+    {id:'td',icon:'🎭',title:'جرئت یا حقیقت',sub:'بازی جمعی',color:'#ee9ac9'},
+    {id:'ludo',icon:'🎲',title:'منچ',sub:'رقابت گروهی',color:'#80d6b4'},
+    {id:'uno',icon:'🃏',title:'UNO',sub:'کارت و رقابت',color:'#ef9b74'},
+    {id:'hokm',icon:'🂡',title:'حکم',sub:'بازی چهار نفره',color:'#aca5f7'},
+    {id:'esf',icon:'📝',title:'اسم‌وفامیل',sub:'سرعت و خلاقیت',color:'#70cbe8'},
+    {id:'mafia',icon:'🕵️',title:'مافیا',sub:'ساخت اتاق گروهی',color:'#e5a8d0'}
+  ];
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function fmt(v){return Number(v||0).toLocaleString('fa-IR')}
+  function svg(name){
+    var p={
+      trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4"/>',
+      users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+      group:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5M9 21v-6h6v6"/>',
+      heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/>',
+      bag:'<path d="M4 8h16l1 12H3L4 8Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/>',
+      user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+      award:'<circle cx="12" cy="8" r="6"/><path d="m8.2 13-1.1 8 4.9-2.6 4.9 2.6-1.1-8"/>',
+      arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+      coin:'<circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.6-.7-1.5-1-3-1-1.4 0-2.5.7-2.5 1.8 0 3 6 1.3 6 4.5 0 1.2-1.2 2.2-3 2.2-1.5 0-2.6-.4-3.5-1.2M12 5.5v13"/>'
+    };
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(p[name]||p.award)+'</svg>';
+  }
+  function notify(msg){toast.textContent=msg;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},2300)}
+  function goBot(action){
+    if(!tg){notify('این بخش را از داخل ربات آپولو باز کن.');return}
+    var url='https://t.me/'+BOT+'?start=app_'+action;
+    try{tg.openTelegramLink(url)}catch(e){location.href=url}
+  }
+  function gameCard(g){return '<button class="game" data-game="'+g.id+'" style="--accent:'+g.color+'" '+(user?'':'disabled')+'><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
+  function tile(id,ico,title,sub,color){return '<button class="tile glass" data-page="'+id+'" style="--tile:'+color+'"><span class="tile-icon">'+ico+'</span><span><b>'+title+'</b><small>'+sub+'</small></span></button>'}
+  function head(title,sub,back){return '<div class="page-head"><button class="back" data-page="'+(back||'home')+'" aria-label="بازگشت">'+svg('arrow')+'</button><div><div class="page-title">'+title+'</div><div class="page-subtitle">'+(sub||'')+'</div></div></div>'}
+  function button(action,label,kind){return '<button class="action '+(kind==='primary'?'primary-action':'')+'" data-action="'+action+'">'+label+'</button>'}
+  function gameGrid(list){return '<div class="grid-games">'+list.map(gameCard).join('')+'</div>'}
+  function playerCard(){return '<section class="player"><div class="player-avatar">'+avatar()+'</div><div class="player-info"><b class="player-name">'+esc(user.firstName+' '+(user.lastName||''))+'</b><small class="player-id">'+esc(user.displayName||'PLAYER')+' · رتبه '+fmt(user.rank)+'</small><span class="player-title">'+esc(user.title||'بازیکن')+'</span></div><div class="levelbox"><small>LEVEL</small><b>'+fmt(user.level)+'</b></div></section>'}
+  function avatar(){return user&&user.photoUrl?'<img src="'+esc(user.photoUrl)+'" alt="">':esc((user&&user.firstName?user.firstName:'A').slice(0,1))}
+  function stats(){return '<div class="stats"><div class="stat glass"><div class="stat-label">⚡ تجربه (XP)</div><b class="stat-value violet">'+fmt(user.xp)+'</b></div><div class="stat glass"><div class="stat-label">🪙 سکه</div><b class="stat-value gold">'+fmt(user.coins)+'</b></div><div class="stat glass"><div class="stat-label">'+svg('trophy')+' بردها</div><b class="stat-value cyan">'+fmt(user.wins)+'</b></div></div>'}
+  function progress(){var pct=user.boxes?Math.max(0,Math.min(100,100*user.filled/user.boxes)):0;return '<div class="progress glass"><div class="progress-head"><span>پیشرفت سطح '+fmt(user.level)+'</span><b>'+fmt(user.filled)+' / '+fmt(user.boxes)+' XP</b></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'}
+  function home(){return playerCard()+stats()+progress()+'<div class="section-head"><b class="section-title">حریف‌یابی سریع</b><button class="section-more" data-action="quick">شروع ←</button></div><section class="quick"><div class="quick-row"><div class="quick-icon">'+svg('trophy')+'</div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه وارد صف شو</small></div><button class="primary" data-action="quick">شروع</button></div></section><div class="section-head"><b class="section-title">بازی‌های آپولو</b><button class="section-more" data-page="games">همه بازی‌ها ←</button></div>'+gameGrid(games.slice(0,6))+'<div class="section-head"><b class="section-title">ارتباط با بازیکن‌ها</b><button class="section-more" data-page="friends">مشاهده ←</button></div><div class="tile-grid">'+tile('friends',svg('users'),'دوستان',fmt(user.friends)+' دوست','#5eead4')+tile('groups',svg('group'),'گروه‌ها',fmt(user.activeGroups)+' گروه فعال','#f8cd78')+tile('blind',svg('heart'),'بلایند دیت',user.blindStatus||'آشنایی و گفت‌وگو','#f2a8d1')+'</div>'}
+  function gameCategory(title,description,ids){var list=games.filter(function(g){return ids.indexOf(g.id)>=0});return '<section class="game-category"><div class="section-head"><div><b class="section-title">'+title+'</b><div class="page-subtitle">'+description+'</div></div><small class="page-subtitle">'+fmt(list.length)+' بازی</small></div>'+gameGrid(list)+'</section>'}
+  function gamesPage(){return head('بازی‌های آپولو','بازی‌ها را بر اساس سبک انتخاب کن')+'<section class="quick"><div class="quick-row"><div class="quick-icon">'+svg('trophy')+'</div><div class="quick-copy"><b>حریف تصادفی</b><small>برای شروع مسابقه وارد صف شو</small></div><button class="primary" data-action="quick">حریف‌یابی</button></div></section>'+gameCategory('فکری و استراتژی','حرکت بعدی را هوشمندانه انتخاب کن',['ttt','four','chess','ludo'])+gameCategory('دانش و سرعت','سرعت عمل و دانسته‌هایت را بسنج',['quiz','math','esf','rps'])+gameCategory('دورهمی و کارتی','برای جمع‌های دوستانه و رقابت گروهی',['td','uno','hokm','mafia'])}
+  function friendsPage(){return head('دوستان','مدیریت دوست‌ها و دعوت به بازی')+'<div class="stats"><div class="stat glass"><div class="stat-label">👥 دوستان</div><b class="stat-value cyan">'+fmt(user.friends)+'</b></div><div class="stat glass"><div class="stat-label">📩 درخواست‌های دریافتی</div><b class="stat-value violet">'+fmt(user.friendRequests)+'</b></div><div class="stat glass"><div class="stat-label">🏅 رتبه</div><b class="stat-value gold">#'+fmt(user.rank)+'</b></div></div><div class="panel glass"><div class="row"><span>بازی با دوست</span><b>دعوت به مسابقه</b></div><div class="row"><span>افزودن دوست</span><b>با آیدی بازی</b></div><div class="row"><span>درخواست‌های دوستی</span><b>'+fmt(user.friendRequests)+'</b></div>'+button('friends','مدیریت دوستان','primary')+'</div>'}
+  function groupsPage(){return head('گروه‌ها','پیدا کردن و مدیریت گروه‌های بازی')+'<div class="stats"><div class="stat glass"><div class="stat-label">🏘️ گروه‌های فعال</div><b class="stat-value cyan">'+fmt(user.activeGroups)+'</b></div><div class="stat glass"><div class="stat-label">📌 گروه‌های من</div><b class="stat-value violet">'+fmt(user.myGroups)+'</b></div><div class="stat glass"><div class="stat-label">🎮 بازی گروهی</div><b class="stat-value gold">فعال</b></div></div><div class="panel glass"><div class="row"><span>ساخت و ثبت گروه</span><b>بازار گروه‌ها</b></div><div class="row"><span>پیدا کردن گروه</span><b>فهرست گروه‌های فعال</b></div>'+button('groups','باز کردن گروه‌ها','primary')+'</div>'}
+  function blindPage(){return head('بلایند دیت','آشنایی و گفت‌وگوی ناشناس')+'<div class="panel glass"><div style="display:flex;align-items:center;gap:12px"><div class="tile-icon" style="--tile:#f2a8d1;width:48px;height:48px">💘</div><div><b style="font-size:12px">وضعیت فعلی</b><div class="page-subtitle">'+esc(user.blindStatus||'آمادهٔ شروع')+'</div></div></div><div class="row"><span>پیدا کردن نفر هم‌هدف</span><b>جست‌وجوی ناشناس</b></div><div class="row"><span>گفت‌وگو</span><b>پیام و رسانه</b></div>'+button('blind','ورود به بلایند دیت','primary')+'</div>'}
+  function profilePage(){return head('پروفایل بازیکن','اطلاعات و پیشرفت حساب')+playerCard()+'<div class="panel glass"><div class="row"><span>آیدی بازی</span><b>'+esc(user.displayName||'PLAYER')+'</b></div><div class="row"><span>رتبه کلی</span><b>#'+fmt(user.rank)+'</b></div><div class="row"><span>تجربه (XP)</span><b>'+fmt(user.xp)+'</b></div><div class="row"><span>برد / باخت / مساوی</span><b>'+fmt(user.wins)+' / '+fmt(user.losses)+' / '+fmt(user.draws)+'</b></div><div class="row"><span>کل مسابقه‌ها</span><b>'+fmt(user.played)+'</b></div><div class="row"><span>روزهای عضویت</span><b>'+fmt(user.days)+'</b></div>'+button('profile','ویرایش پروفایل')+'</div>'}
+  function shopPage(){return head('فروشگاه','سکه، نشان‌ها و امکانات حساب')+'<div class="panel glass"><div class="quick-row"><div class="quick-icon">'+svg('coin')+'</div><div class="quick-copy"><b>کیف پول</b><small>موجودی فعلی سکه‌های تو</small></div><strong class="gold" style="font-size:20px">'+fmt(user.coins)+'</strong></div>'+button('shop','باز کردن فروشگاه','primary')+'</div><div class="empty">آیتم‌ها و امکانات فروشگاه از بخش فروشگاه ربات مدیریت می‌شوند.</div>'}
+  function render(){
+    document.getElementById('coins').textContent=fmt(user.coins);
+    document.getElementById('topAvatar').disabled=false;
+    document.getElementById('coinButton').disabled=false;
+    document.getElementById('topAvatar').innerHTML=avatar();
+    var pages={home:home,games:gamesPage,friends:friendsPage,groups:groupsPage,blind:blindPage,profile:profilePage,shop:shopPage};
+    view.innerHTML=(pages[page]||home)();
+    nav.querySelectorAll('button[data-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===page||page==='blind'&&b.getAttribute('data-page')==='friends')});
+    nav.classList.remove('loading-nav');
+  }
+  function showError(code){
+    var old=document.getElementById('bootError');if(old)old.remove();
+    var message='اتصال به سرور بیش از حد طول کشید. لابی باز است؛ دوباره تلاش کن.';
+    if(code==='invalid_init_data')message='اطلاعات ورود تلگرام تأیید نشد. مینی‌اپ را کامل ببند و از دکمهٔ ورود داخل ربات دوباره باز کن.';
+    if(code==='user_unavailable')message='این حساب در حال حاضر امکان ورود به آپولو را ندارد.';
+    if(code==='telegram_bridge')message='اتصال تلگرام آماده نشد. یک بار مینی‌اپ را ببند و دوباره باز کن.';
+    if(code==='missing_init_data')message='دادهٔ ورود تلگرام دریافت نشد. مینی‌اپ را از دکمهٔ داخل گفت‌وگوی ربات باز کن.';
+    if(code==='timeout'||code==='AbortError')message='دریافت اطلاعات از سرور طول کشید. بازی‌ها را می‌بینی؛ برای همگام‌سازی دوباره تلاش کن.';
+    var box=document.createElement('div');box.className='error';box.id='bootError';
+    box.innerHTML='<b>همگام‌سازی کامل نشد</b><div>'+message+'</div><button id="retry" type="button">تلاش دوباره</button>';
+    view.insertBefore(box,view.firstChild);
+    document.getElementById('retry').addEventListener('click',function(){boot()});
+  }
+  async function waitForTelegram(){
+    var waited=0;
+    while(!(window.Telegram&&window.Telegram.WebApp)&&waited<6500){await new Promise(function(resolve){setTimeout(resolve,100)});waited+=100}
+    tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
+    return tg;
+  }
+  function previewLobby(){
+    var gamesNode=document.getElementById('previewGames');
+    if(gamesNode)gamesNode.innerHTML=gameGrid(games.slice(0,6));
+    var name=view.querySelector('.player-name');if(name)name.textContent='در حال همگام‌سازی حساب…';
+    var id=view.querySelector('.player-id');if(id)id.textContent='اطلاعات بازیکن در حال دریافت است';
+    document.getElementById('topAvatar').disabled=true;
+    document.getElementById('coinButton').disabled=true;
+    view.querySelectorAll('[data-action]').forEach(function(btn){btn.disabled=true});
+    nav.classList.add('loading-nav');
+  }
+  async function boot(){
+    var error=document.getElementById('bootError');if(error)error.remove();
+    previewLobby();
+    try{
+      if(!tg)await waitForTelegram();
+      if(!tg)throw new Error('telegram_bridge');
+      try{tg.ready();tg.expand();tg.setHeaderColor('#'+ '1d263b');tg.setBackgroundColor('#1d263b');if(tg.setBottomBarColor)tg.setBottomBarColor('#1d263b')}catch(_){}
+      var initData=String(tg.initData||'');
+      if(!initData)throw new Error('missing_init_data');
+      var controller=new AbortController();
+      var timeout=setTimeout(function(){controller.abort()},12000);
+      var response;
+      try{
+        response=await fetch('/api/bootstrap',{method:'POST',headers:{'content-type':'application/json','authorization':'tma '+initData},body:'{}',cache:'no-store',signal:controller.signal});
+      }finally{clearTimeout(timeout)}
+      var data=await response.json();
+      if(!response.ok||!data.ok)throw new Error(data.error||'network');
+      user=data.user;
+      render();
+    }catch(err){
+      console.warn('Apolo bootstrap failed',String(err));
+      showError(err&&err.name==='AbortError'?'timeout':String(err&&err.message||'network'));
+    }
+  }
+  view.addEventListener('click',function(e){
+    var p=e.target.closest('[data-page]');
+    if(p){if(!user)return;page=p.getAttribute('data-page');render();return}
+    var a=e.target.closest('[data-action]');
+    if(a){if(!user)return;var action=a.getAttribute('data-action');if(action==='quick')goBot('quick');else if(action==='league')goBot('games');else goBot(action);return}
+    var g=e.target.closest('[data-game]');
+    if(g&&user)goBot('game_'+g.getAttribute('data-game'));
+  });
+  nav.addEventListener('click',function(e){var b=e.target.closest('[data-page]');if(b&&user){page=b.getAttribute('data-page');render()}});
+  document.getElementById('topAvatar').addEventListener('click',function(){if(user){page='profile';render()}});
+  document.getElementById('coinButton').addEventListener('click',function(){if(user){page='shop';render()}});
+  previewLobby();
+  boot();
+})();
+</script>
+</body>
+</html>
