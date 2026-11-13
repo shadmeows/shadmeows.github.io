@@ -247,7 +247,7 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
     var url='https://t.me/'+BOT+'?start=app_'+action;
     try{tg.openTelegramLink(url)}catch(e){location.href=url}
   }
-  function gameCard(g){return '<button class="game" data-game="'+g.id+'" style="--accent:'+g.color+'" '+(user?"":"disabled aria-disabled=\\"true\\"")+'><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
+  function gameCard(g){return '<button class="game" data-game="'+g.id+'" style="--accent:'+g.color+'" '+(user?'':'disabled')+'><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
   function tile(id,ico,title,sub,color){return '<button class="tile glass" data-page="'+id+'" style="--tile:'+color+'"><span class="tile-icon">'+ico+'</span><span><b>'+title+'</b><small>'+sub+'</small></span></button>'}
   function head(title,sub,back){return '<div class="page-head"><button class="back" data-page="'+(back||'home')+'" aria-label="بازگشت">'+svg('arrow')+'</button><div><div class="page-title">'+title+'</div><div class="page-subtitle">'+(sub||'')+'</div></div></div>'}
   function button(action,label,kind){return '<button class="action '+(kind==='primary'?'primary-action':'')+'" data-action="'+action+'">'+label+'</button>'}
