@@ -264,7 +264,7 @@ body{background:var(--color-base-100);color:var(--color-base-content)}
 'use strict';
 var tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
 var view=document.getElementById('view'),nav=document.getElementById('nav'),toast=document.getElementById('toast');
-var user=null,page='home',gameId='',soloGame=null,match=null,queueWaiting=false,pollTimer=null,quizState=null,practiceState=null,renderSeq=0;
+var user=null,page='home',gameId='',soloGame=null,match=null,queueWaiting=false,pollTimer=null,quizState=null,practiceState=null,localGame=null,gameFilter='all',renderSeq=0;
 var cache={friends:null,groups:null,shop:null,leaderboard:null,profile:null,blind:null};
 var games=[
 {id:'ttt',title:'دوز',sub:'تک‌نفره و آنلاین',color:'#9f8cff'},
@@ -320,13 +320,17 @@ tile('leaderboard','🏆','رتبه‌بندی','بهترین بازیکن‌ه�
 tile('shop','🛍️','فروشگاه',fmt(user.coins)+' سکه','#80d6b4')+
 tile('profile','👤','پروفایل','مدیریت حساب','#8ed7ee')+
 '</div><div class="section-head"><b class="section-title">جایزهٔ روزانه</b></div><section class="panel glass"><div class="row"><span>هر روز سر بزن و XP بگیر</span><b>🎁 روزانه</b></div>'+action('دریافت جایزهٔ امروز','daily','primary')+'</section>'}
-function gameCard(g){return '<button type="button" class="game" data-game="'+g.id+'" style="--accent:'+g.color+'"><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+g.title+'</b><small>'+g.sub+'</small></span></button>'}
-function gameCategory(title,sub,ids){return '<section><div class="section-head"><div><b class="section-title">'+title+'</b><div class="page-subtitle">'+sub+'</div></div><small class="page-subtitle">'+fmt(ids.length)+' بازی</small></div><div class="grid-games">'+games.filter(function(g){return ids.indexOf(g.id)>=0}).map(gameCard).join('')+'</div></section>'}
-function gamesPage(){return head('بازی‌های آپولو','بدون خروج از مینی‌اپ بازی کن')+
-'<section class="quick"><div class="quick-row"><div class="quick-icon">⚡</div><div class="quick-copy"><b>مسابقهٔ آنلاین</b><small>دوز، سنگ‌کاغذ‌قیچی یا چهاردرخط</small></div><button class="primary" data-game="ttt">شروع</button></div></section>'+
-gameCategory('فکری و استراتژی','برای حرکت بعدی برنامه داشته باش',['ttt','four','chess','ludo'])+
-gameCategory('دانش و سرعت','دانسته‌ها و سرعت عملت را بسنج',['quiz','math','esf','rps'])+
-gameCategory('دورهمی و کارتی','بازی‌های جمعی و کارتی',['td','uno','hokm','mafia'])}
+function gameMode(id){return ['ttt','rps','four'].indexOf(id)>=0?'online':(['quiz','math'].indexOf(id)>=0?'practice':'local')}
+function gameCard(g){var mode=gameMode(g.id),tag=mode==='online'?'آنلاین':mode==='practice'?'تمرینی':'محلی · دورهمی';return '<button type="button" class="game" data-game="'+g.id+'" data-mode="'+mode+'" style="--accent:'+g.color+'"><span class="game-art"><img src="/assets/games/'+g.id+'.svg" alt="" loading="lazy" decoding="async"></span><span class="game-copy"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small><span class="game-meta"><span class="game-tag '+mode+'">'+tag+'</span></span></span></button>'}
+function gameCategory(title,sub,ids){return '<section data-game-section><div class="section-head"><div><b class="section-title">'+title+'</b><div class="page-subtitle">'+sub+'</div></div><small class="page-subtitle">'+fmt(ids.length)+' بازی</small></div><div class="grid-games">'+games.filter(function(g){return ids.indexOf(g.id)>=0}).map(gameCard).join('')+'</div></section>'}
+function gamesPage(){return head('بازی‌های آپولو','نوع بازی را مشخص کن و سریع وارد شو')+
+'<section class="quick"><div class="quick-row"><div class="quick-icon">⚡</div><div class="quick-copy"><b>مسابقهٔ آنلاین</b><small>دوز، سنگ‌کاغذ‌قیچی و چهاردرخط</small></div><button class="primary" data-game="ttt">شروع</button></div></section>'+
+'<div class="game-tools"><input id="gameSearch" class="game-search" type="search" placeholder="جست‌وجوی بازی…" autocomplete="off" aria-label="جست‌وجوی بازی">'+
+'<div class="game-filters" role="group" aria-label="فیلتر بازی‌ها"><button class="game-filter '+(gameFilter==='all'?'active':'')+'" data-game-filter="all">همهٔ بازی‌ها</button><button class="game-filter '+(gameFilter==='online'?'active':'')+'" data-game-filter="online">آنلاین</button><button class="game-filter '+(gameFilter==='local'?'active':'')+'" data-game-filter="local">محلی و دورهمی</button><button class="game-filter '+(gameFilter==='practice'?'active':'')+'" data-game-filter="practice">تمرینی</button></div></div>'+
+gameCategory('فکری و استراتژی','رقابت، تمرکز و تصمیم‌گیری',['ttt','four','chess','ludo'])+
+gameCategory('دانش و سرعت','سرعت عمل و دانسته‌هایت را بسنج',['quiz','math','esf','rps'])+
+gameCategory('دورهمی و کارتی','برای جمع‌های دوستانه و بازی‌های گروهی',['td','uno','hokm','mafia'])+
+'<div id="gameEmpty" class="empty" hidden>بازی‌ای با این جست‌وجو پیدا نشد.</div>'}
 async function friendsPage(){var d=cache.friends||await api('friends.read');cache.friends=d;return head('دوستان','درخواست و مدیریت دوست‌ها')+
 '<div class="panel glass"><b>افزودن دوست</b><form id="friendAddForm" class="app-form"><input name="code" maxlength="40" placeholder="آیدی بازی دوستت؛ مثل APOLO123" autocomplete="off" required><button class="primary" type="submit">ارسال درخواست</button></form></div>'+
 '<div class="section-head"><b class="section-title">درخواست‌های دریافتی</b><small class="page-subtitle">'+fmt((d.incoming||[]).length)+' درخواست</small></div>'+
